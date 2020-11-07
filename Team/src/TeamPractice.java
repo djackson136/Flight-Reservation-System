@@ -1,7 +1,7 @@
 
 public class TeamPractice {
 	public static void main(String[] args) {
-		int a = 10;
+		int a = 15;
 		int b = 12;
 		int c = 15;
 		double d = 7.5;
