@@ -91,8 +91,9 @@ public class RegisterWindow extends JFrame {
 		list.setBounds(220, 159, 53, -8);
 		contentPane.add(list);
 		
-		JList list_1 = new JList();
-		list_1.setBounds(221, 145, 33, 16);
-		contentPane.add(list_1);
+		JList stateText = new JList();
+		stateText.setVisibleRowCount(50);
+		stateText.setBounds(221, 145, 33, 16);
+		contentPane.add(stateText);
 	}
 }
