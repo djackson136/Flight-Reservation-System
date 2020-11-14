@@ -1,8 +1,14 @@
-package ProjectCode;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JList;
 
 public class RegisterWindow extends JFrame {
 
@@ -91,3 +97,4 @@ public class RegisterWindow extends JFrame {
 		contentPane.add(stateText);
 	}
 }
+
