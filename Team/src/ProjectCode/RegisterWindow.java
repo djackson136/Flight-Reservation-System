@@ -1,23 +1,32 @@
+package ProjectCode;
 
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JList;
-
+@SuppressWarnings("serial")
 public class RegisterWindow extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField firstNameText;
+	private JTextField lastNameText;
+	private JTextField streetText;
+	private JTextField cityText;
+	private JLabel stateLabel;
+	private JTextField zipText;
+	private JLabel userLabel;
+	private JTextField userText;
+	private JLabel passLabel;
+	private JTextField passText;
+	private JLabel conPassLabel;
+	private JTextField conPassText;
+	private JLabel emailLabel;
 	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JLabel lblNewLabel_4;
+	private JPasswordField ssnText;
+	private JLabel secQuestionLabel;
+	private JTextField secQuestionText;
+	private JLabel lblNewLabel;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -38,63 +47,134 @@ public class RegisterWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public RegisterWindow() {
 		setTitle("Registration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 500);
+		setBounds(100, 100, 420, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("First Name: ");
-		lblNewLabel.setBounds(55, 61, 76, 16);
-		contentPane.add(lblNewLabel);
+		JLabel firstNameLabel = new JLabel("First Name: ");
+		firstNameLabel.setBounds(92, 25, 76, 16);
+		contentPane.add(firstNameLabel);
+		
+		firstNameText = new JTextField();
+		firstNameText.setBounds(180, 20, 130, 26);
+		contentPane.add(firstNameText);
+		firstNameText.setColumns(10);
+		
+		JLabel lastNameLabel = new JLabel("Last Name:");
+		lastNameLabel.setBounds(92, 56, 76, 16);
+		contentPane.add(lastNameLabel);
+		
+		lastNameText = new JTextField();
+		lastNameText.setBounds(180, 51, 130, 26);
+		contentPane.add(lastNameText);
+		lastNameText.setColumns(10);
+		
+		JLabel streetLabel = new JLabel("Street Address:");
+		streetLabel.setBounds(6, 84, 104, 16);
+		contentPane.add(streetLabel);
+		
+		streetText = new JTextField();
+		streetText.setBounds(122, 79, 240, 26);
+		contentPane.add(streetText);
+		streetText.setColumns(10);
+		
+		JLabel cityLabel = new JLabel("City: ");
+		cityLabel.setBounds(6, 112, 33, 16);
+		contentPane.add(cityLabel);
+		
+		cityText = new JTextField();
+		cityText.setBounds(40, 107, 100, 26);
+		contentPane.add(cityText);
+		cityText.setColumns(10);
+		
+		stateLabel = new JLabel("State:");
+		stateLabel.setBounds(145, 112, 35, 16);
+		contentPane.add(stateLabel);
+		
+		JComboBox stateBox = new JComboBox();
+		stateBox.setModel(new DefaultComboBoxModel(new String[] {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE",
+				"FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP",
+				"MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD",
+				"TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"}));
+		stateBox.setMaximumRowCount(50);
+		stateBox.setBounds(180, 108, 80, 27);
+		contentPane.add(stateBox);
+		
+		JLabel zipLabel = new JLabel("Zipcode:");
+		zipLabel.setBounds(260, 112, 60, 16);
+		contentPane.add(zipLabel);
+		
+		zipText = new JTextField();
+		zipText.setBounds(318, 107, 76, 26);
+		contentPane.add(zipText);
+		zipText.setColumns(10);
+		
+		userLabel = new JLabel("Username:");
+		userLabel.setBounds(92, 145, 76, 16);
+		contentPane.add(userLabel);
+		
+		userText = new JTextField();
+		userText.setBounds(180, 140, 130, 26);
+		contentPane.add(userText);
+		userText.setColumns(10);
+		
+		passLabel = new JLabel("Password:");
+		passLabel.setBounds(92, 173, 76, 16);
+		contentPane.add(passLabel);
+		
+		passText = new JTextField();
+		passText.setBounds(180, 168, 130, 26);
+		contentPane.add(passText);
+		passText.setColumns(10);
+		
+		conPassLabel = new JLabel("Confirm Password:");
+		conPassLabel.setBounds(40, 201, 128, 16);
+		contentPane.add(conPassLabel);
+		
+		conPassText = new JTextField();
+		conPassText.setBounds(180, 196, 130, 26);
+		contentPane.add(conPassText);
+		conPassText.setColumns(10);
+		
+		emailLabel = new JLabel("Email:");
+		emailLabel.setBounds(44, 229, 46, 16);
+		contentPane.add(emailLabel);
 		
 		textField = new JTextField();
-		textField.setBounds(143, 56, 130, 26);
+		textField.setBounds(102, 224, 260, 26);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Last Name:");
-		lblNewLabel_1.setBounds(55, 89, 76, 16);
-		contentPane.add(lblNewLabel_1);
+		JLabel ssnLabel = new JLabel("SSN:");
+		ssnLabel.setBounds(122, 262, 33, 16);
+		contentPane.add(ssnLabel);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(143, 84, 130, 26);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		ssnText = new JPasswordField();
+		ssnText.setBounds(180, 257, 114, 26);
+		contentPane.add(ssnText);
 		
-		JLabel lblNewLabel_2 = new JLabel("Street Address:");
-		lblNewLabel_2.setBounds(27, 117, 104, 16);
-		contentPane.add(lblNewLabel_2);
+		secQuestionLabel = new JLabel("Security Question:");
+		secQuestionLabel.setBounds(6, 291, 121, 16);
+		contentPane.add(secQuestionLabel);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(143, 112, 209, 26);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		secQuestionText = new JTextField();
+		secQuestionText.setBounds(130, 286, 264, 26);
+		contentPane.add(secQuestionText);
+		secQuestionText.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("City: ");
-		lblNewLabel_3.setBounds(27, 145, 33, 16);
-		contentPane.add(lblNewLabel_3);
+		lblNewLabel = new JLabel("Security Answer:");
+		lblNewLabel.setBounds(16, 319, 112, 16);
+		contentPane.add(lblNewLabel);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(72, 140, 90, 26);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
-		
-		lblNewLabel_4 = new JLabel("State:");
-		lblNewLabel_4.setBounds(174, 145, 35, 16);
-		contentPane.add(lblNewLabel_4);
-		
-		JList list = new JList();
-		list.setBounds(220, 159, 53, -8);
-		contentPane.add(list);
-		
-		JList stateText = new JList();
-		stateText.setVisibleRowCount(50);
-		stateText.setBounds(221, 145, 33, 16);
-		contentPane.add(stateText);
+		passwordField = new JPasswordField();
+		passwordField.setBounds(130, 314, 150, 26);
+		contentPane.add(passwordField);
 	}
 }
 

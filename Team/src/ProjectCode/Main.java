@@ -1,5 +1,6 @@
 package ProjectCode;
 
+
 import java.awt.EventQueue;
 
 public class Main {
@@ -22,7 +23,7 @@ public class Main {
 				}
 			}
 		});
-		System.out.println();
+
 	}
 
 }

@@ -1,11 +1,16 @@
+package ProjectCode;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+@SuppressWarnings("serial")
 public class LoginWindow extends JFrame {
 
+	/**
+	 * 
+	 */
 	private JPanel loginPane;
 	private JTextField userText;
 	private JPasswordField passText;
@@ -79,3 +84,4 @@ public class LoginWindow extends JFrame {
 	}
 	}
 }
+
