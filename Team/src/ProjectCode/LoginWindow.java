@@ -1,4 +1,4 @@
-package ProjectCode;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -79,4 +79,3 @@ public class LoginWindow extends JFrame {
 	}
 	}
 }
-
