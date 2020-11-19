@@ -15,7 +15,7 @@ public class LoginWindow extends JFrame {
 	 */
 	private JPanel loginPane;
 	private JTextField userText;
-	private JPasswordField passText;
+	private JTextField passText;
 	private static JButton loginButton;
 	private JButton registerButton;
 
@@ -59,7 +59,7 @@ public class LoginWindow extends JFrame {
 		passLabel.setBounds(118, 131, 63, 16);
 		getContentPane().add(passLabel);
 		
-		passText = new JPasswordField();
+		passText = new JTextField();
 		passText.setBounds(193, 126, 114, 26);
 		loginPane.add(passText);
 		
@@ -71,34 +71,36 @@ public class LoginWindow extends JFrame {
 		registerButton.setBounds(162, 184, 82, 29);
 		getContentPane().add(registerButton);
 		
-		ActionListener loginButtonListener = new RegisterButtonListener();
-		registerButton.addActionListener(loginButtonListener);
-	}
-	public class RegisterButtonListener implements ActionListener {
-		@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		RegisterWindow registerPane = new RegisterWindow();
-			
-		registerButton = (JButton)e.getSource();		
-		loginPane.setVisible(false);
-		registerPane.setVisible(true);
-		/*
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(url, username, password);
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO customer.logincustomer (username, password) VALUES (?, ?);");
-			ps.setString(1, userText.getText());
-			ps.setString(2, passText.getText());
-			int x = ps.executeUpdate();
-			if (x > 0)
-				System.out.println("Login Successful");
-			else
-				System.out.println("Login Failed");
-		} catch (Exception e) {
-			System.out.println(e);
-		}*/
-	}
+		registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				RegisterWindow registerPane = new RegisterWindow();
+					
+				registerButton = (JButton)e.getSource();		
+				//loginPane.setVisible(false);
+				registerPane.setVisible(true);
+			}
+		});
+		
+		/*loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+				
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys", "root", "Daivik99");
+					PreparedStatement ps = conn.prepareStatement("INSERT INTO CustomerInformation (Username, Password) VALUES ('"+userText.getText()+"', '"+passText.getText()+"')");
+					int x = ps.executeUpdate();
+					if(x > 0) {
+						System.out.println("Login Successful");
+					} else 
+						System.out.println("Login Failed");
+				} 	catch (Exception f) {
+					System.out.println(f);
+				}
+
+			}
+		});*/
 	}
 }
+
 
