@@ -1,8 +1,14 @@
 package ProjectCode;
 
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class RegisterWindow extends JFrame {
@@ -21,12 +27,13 @@ public class RegisterWindow extends JFrame {
 	private JLabel conPassLabel;
 	private JTextField conPassText;
 	private JLabel emailLabel;
-	private JTextField textField;
-	private JPasswordField ssnText;
+	private JTextField emailText;
+	private JTextField ssnText;
 	private JLabel secQuestionLabel;
 	private JTextField secQuestionText;
 	private JLabel lblNewLabel;
-	private JPasswordField passwordField;
+	private JTextField secAnswerText;
+	private JTextField stateText;
 
 	/**
 	 * Launch the application.
@@ -47,7 +54,7 @@ public class RegisterWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	public RegisterWindow() {
 		setTitle("Registration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,15 +104,21 @@ public class RegisterWindow extends JFrame {
 		stateLabel.setBounds(145, 112, 35, 16);
 		contentPane.add(stateLabel);
 		
+		stateText = new JTextField();
+		stateText.setBounds(192, 107, 59, 26);
+		contentPane.add(stateText);
+		stateText.setColumns(10);
+		
+		/*
 		JComboBox stateBox = new JComboBox();
+		stateBox.setBounds(180, 108, 80, 27);
 		stateBox.setModel(new DefaultComboBoxModel(new String[] {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE",
 				"FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP",
 				"MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD",
 				"TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"}));
 		stateBox.setMaximumRowCount(50);
-		stateBox.setBounds(180, 108, 80, 27);
 		contentPane.add(stateBox);
-		
+		*/
 		JLabel zipLabel = new JLabel("Zipcode:");
 		zipLabel.setBounds(260, 112, 60, 16);
 		contentPane.add(zipLabel);
@@ -146,16 +159,16 @@ public class RegisterWindow extends JFrame {
 		emailLabel.setBounds(44, 229, 46, 16);
 		contentPane.add(emailLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(102, 224, 260, 26);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		emailText = new JTextField();
+		emailText.setBounds(102, 224, 260, 26);
+		contentPane.add(emailText);
+		emailText.setColumns(10);
 		
 		JLabel ssnLabel = new JLabel("SSN:");
 		ssnLabel.setBounds(122, 262, 33, 16);
 		contentPane.add(ssnLabel);
 		
-		ssnText = new JPasswordField();
+		ssnText = new JTextField();
 		ssnText.setBounds(180, 257, 114, 26);
 		contentPane.add(ssnText);
 		
@@ -172,9 +185,43 @@ public class RegisterWindow extends JFrame {
 		lblNewLabel.setBounds(16, 319, 112, 16);
 		contentPane.add(lblNewLabel);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(130, 314, 150, 26);
-		contentPane.add(passwordField);
-	}
+		secAnswerText = new JTextField();
+		secAnswerText.setBounds(130, 314, 150, 26);
+		contentPane.add(secAnswerText);
+		
+		JButton regButton = new JButton("Register");
+		regButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Customer", "root", "development");
+					PreparedStatement ps = conn.prepareStatement("INSERT INTO RegisterCustomer (SSN, Username, Password, First_Name, Last_Name, Email, Street_Address, City, State, Zipcode, Security_Question, Security_Answer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+					ps.setString(1, ssnText.getText());
+					ps.setString(2, userText.getText());
+					ps.setString(3, passText.getText());
+					ps.setString(4, firstNameText.getText());
+					ps.setString(5, lastNameText.getText());
+					ps.setString(6, emailText.getText());
+					ps.setString(7, streetText.getText());
+					ps.setString(8, cityText.getText());
+					ps.setString(9, stateText.getText());
+					ps.setString(10, zipText.getText());
+					ps.setString(11, secQuestionText.getText());
+					ps.setString(12, secAnswerText.getText());
+					int x = ps.executeUpdate();
+					if (x > 0)
+						System.out.println("Login Successful");
+					else
+						System.out.println("Login Failed");
+				} catch (Exception ex) {
+					System.out.println(ex);
+				}
+				
+			}
+		});
+		regButton.setBounds(145, 398, 117, 29);
+		contentPane.add(regButton);
+		
+		}
 }
 
