@@ -2,6 +2,8 @@ package ProjectCode;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -81,6 +83,21 @@ public class LoginWindow extends JFrame {
 		registerButton = (JButton)e.getSource();		
 		loginPane.setVisible(false);
 		registerPane.setVisible(true);
+		/*
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url, username, password);
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO customer.logincustomer (username, password) VALUES (?, ?);");
+			ps.setString(1, userText.getText());
+			ps.setString(2, passText.getText());
+			int x = ps.executeUpdate();
+			if (x > 0)
+				System.out.println("Login Successful");
+			else
+				System.out.println("Login Failed");
+		} catch (Exception e) {
+			System.out.println(e);
+		}*/
 	}
 	}
 }
