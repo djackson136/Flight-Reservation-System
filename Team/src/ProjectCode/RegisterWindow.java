@@ -215,6 +215,7 @@ public class RegisterWindow extends JFrame {
 						System.out.println("Login Failed");
 				} catch (Exception ex) {
 					System.out.println(ex);
+					System.out.println();
 				}
 				
 			}

@@ -34,23 +34,5 @@ public class Main {
 				}
 			}
 		});
-		/*
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, username, password);
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO customer.logincustomer (username, password) VALUES (?, ?);");
-			ps.setString(1, x);
-			ps.setString(2, x);
-			int x = ps.executeUpdate();
-			if (x > 0)
-				System.out.println("Login Successful");
-			else
-				System.out.println("Login Failed");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		*/
-
 	}
-
 }
