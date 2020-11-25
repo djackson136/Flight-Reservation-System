@@ -224,7 +224,8 @@ public class RegisterWindow extends JFrame {
 		});
 		regButton.setBounds(145, 398, 117, 29);
 		contentPane.add(regButton);
-		
+		System.out.println();
 		}
+
 }
 
