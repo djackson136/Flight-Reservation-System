@@ -77,19 +77,26 @@ public class LoginWindow extends JFrame {
 		registerButton.setBounds(162, 184, 82, 29);
 		getContentPane().add(registerButton);
 
-		ActionListener loginButtonListener = new RegisterButtonListener();
-		registerButton.addActionListener(loginButtonListener);
-	}
-
-	public class RegisterButtonListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			RegisterWindow registerPane = new RegisterWindow();
-
-			registerButton = (JButton) e.getSource();
-			loginPane.setVisible(false);
-			registerPane.setVisible(true);
-
-		}
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String user = userText.getText();
+					String pass = passText.getText();
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection conn = DriverManager.getConnection("jdbc:mysql://35.202.73.103:3306/Customer", "daiv", "project");
+					Statement stmt = conn.createStatement();
+					String sql = "SELECT * FROM RegisterCustomer Where Username = '"+user+"' AND Password = '"+pass+"' ";
+					ResultSet rs = stmt.executeQuery(sql);
+					
+					if(rs.next()) {
+						JOptionPane.showMessageDialog(null, "Login Successful");
+					}else {
+						JOptionPane.showMessageDialog(null, "Login Failed");
+						conn.close();
+					}
+			} catch (Exception Ex) {System.out.println(e);}
+			}
+		});
 	}
 }
+

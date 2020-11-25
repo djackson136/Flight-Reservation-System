@@ -109,16 +109,16 @@ public class RegisterWindow extends JFrame {
 		contentPane.add(stateText);
 		stateText.setColumns(10);
 		
-		/*
-		JComboBox stateBox = new JComboBox();
+	
+		/*JComboBox stateBox = new JComboBox();
 		stateBox.setBounds(180, 108, 80, 27);
 		stateBox.setModel(new DefaultComboBoxModel(new String[] {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE",
 				"FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP",
 				"MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD",
 				"TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"}));
 		stateBox.setMaximumRowCount(50);
-		contentPane.add(stateBox);
-		*/
+		contentPane.add(stateBox);*/
+
 		JLabel zipLabel = new JLabel("Zipcode:");
 		zipLabel.setBounds(260, 112, 60, 16);
 		contentPane.add(zipLabel);
@@ -141,7 +141,7 @@ public class RegisterWindow extends JFrame {
 		passLabel.setBounds(92, 173, 76, 16);
 		contentPane.add(passLabel);
 		
-		passText = new JTextField();
+		passText = new JPasswordField();
 		passText.setBounds(180, 168, 130, 26);
 		contentPane.add(passText);
 		passText.setColumns(10);
@@ -168,7 +168,7 @@ public class RegisterWindow extends JFrame {
 		ssnLabel.setBounds(122, 262, 33, 16);
 		contentPane.add(ssnLabel);
 		
-		ssnText = new JTextField();
+		ssnText = new JPasswordField();
 		ssnText.setBounds(180, 257, 114, 26);
 		contentPane.add(ssnText);
 		
@@ -194,7 +194,7 @@ public class RegisterWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Customer", "root", "development");
+					Connection conn = DriverManager.getConnection("jdbc:mysql://35.202.73.103:3306/Customer", "daiv", "project");
 					PreparedStatement ps = conn.prepareStatement("INSERT INTO RegisterCustomer (SSN, Username, Password, First_Name, Last_Name, Email, Street_Address, City, State, Zipcode, Security_Question, Security_Answer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 					ps.setString(1, ssnText.getText());
 					ps.setString(2, userText.getText());
@@ -217,6 +217,8 @@ public class RegisterWindow extends JFrame {
 					System.out.println(ex);
 					System.out.println("Resolved");
 				}
+				contentPane.setVisible(false);
+				dispose();
 				
 			}
 		});
