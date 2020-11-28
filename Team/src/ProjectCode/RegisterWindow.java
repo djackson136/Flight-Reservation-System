@@ -192,9 +192,8 @@ public class RegisterWindow extends JFrame {
 		JButton regButton = new JButton("Register");
 		regButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Connection conn = DbConnection.connect();
 				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection conn = DriverManager.getConnection("jdbc:mysql://35.202.73.103:3306/Customer", "daiv", "project");
 					PreparedStatement ps = conn.prepareStatement("INSERT INTO RegisterCustomer (SSN, Username, Password, First_Name, Last_Name, Email, Street_Address, City, State, Zipcode, Security_Question, Security_Answer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 					ps.setString(1, ssnText.getText());
 					ps.setString(2, userText.getText());
@@ -226,6 +225,5 @@ public class RegisterWindow extends JFrame {
 		contentPane.add(regButton);
 		System.out.println();
 		}
-
 }
 

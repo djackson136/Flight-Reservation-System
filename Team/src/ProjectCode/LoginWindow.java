@@ -19,11 +19,7 @@ public class LoginWindow extends JFrame {
 	private static JButton loginButton;
 	private JButton registerButton;
 
-	static Connection connection = null;
-	static String url = "jdbc:mysql://localhost:3306/Customer";
-
-	static String username = "root";
-	static String password = "development";
+	static Connection conn = null;
 
 	/**
 	 * Launch the application.
@@ -79,11 +75,10 @@ public class LoginWindow extends JFrame {
 
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Connection conn = DbConnection.connect();
 				try {
 					String user = userText.getText();
 					String pass = passText.getText();
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection conn = DriverManager.getConnection("jdbc:mysql://35.202.73.103:3306/Customer", "daiv", "project");
 					Statement stmt = conn.createStatement();
 					String sql = "SELECT * FROM RegisterCustomer Where Username = '"+user+"' AND Password = '"+pass+"' ";
 					ResultSet rs = stmt.executeQuery(sql);
