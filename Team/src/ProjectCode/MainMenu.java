@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
 
@@ -50,8 +51,9 @@ public class MainMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel welcomeText = new JLabel("Welcome");
+		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomeText.setBounds(78, 48, 269, 25);
 		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		welcomeText.setBounds(169, 48, 86, 25);
 		contentPane.add(welcomeText);
 		
 		JButton bookFlightButton = new JButton("Book a Flight");
@@ -74,7 +76,50 @@ public class MainMenu extends JFrame {
 		accountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
+					MyAccountWindow frame = new MyAccountWindow();
+					frame.setVisible(true);
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
+	}
+	public MainMenu(String name) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel welcomeText = new JLabel("Welcome " + name);
+		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomeText.setBounds(78, 48, 269, 25);
+		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		contentPane.add(welcomeText);
+		
+		JButton bookFlightButton = new JButton("Book a Flight");
+		bookFlightButton.setBounds(152, 104, 117, 29);
+		contentPane.add(bookFlightButton);
+		
+		JButton accountButton = new JButton("My Account");
+		accountButton.setBounds(152, 145, 117, 29);
+		contentPane.add(accountButton);
+		
+		bookFlightButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection conn = DbConnection.connect();
+				try {
+					FlightWindow frame = new FlightWindow();
+					frame.setVisible(true);
+				} catch (Exception Ex) {System.out.println(e);}
+			}
+		});
+		accountButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					MyAccountWindow frame = new MyAccountWindow();
+					frame.setVisible(true);
 				} catch(Exception Ex) {
 					System.out.println(e);
 				}

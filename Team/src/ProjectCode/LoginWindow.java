@@ -18,6 +18,8 @@ public class LoginWindow extends JFrame {
 	private JPasswordField passText;
 	private static JButton loginButton;
 	private JButton registerButton;
+	private static String username;
+    private static String password;
 
 	static Connection conn = null;
 
@@ -36,7 +38,6 @@ public class LoginWindow extends JFrame {
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -87,13 +88,13 @@ public class LoginWindow extends JFrame {
 				}
 			});
 		
-
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				try {
 					String user = userText.getText();
 					String pass = passText.getText();
+					setUsername(user);
 					Statement stmt = conn.createStatement();
 					String sql = "SELECT * FROM Admin Where Username = '"+user+"' AND Password = '"+pass+"' ";
 					ResultSet rs = stmt.executeQuery(sql);
@@ -119,7 +120,8 @@ public class LoginWindow extends JFrame {
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						JOptionPane.showMessageDialog(null, "Login Successful");
+						MainMenu frame = new MainMenu(user);
+						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
