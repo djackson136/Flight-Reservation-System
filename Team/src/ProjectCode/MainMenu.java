@@ -71,5 +71,14 @@ public class MainMenu extends JFrame {
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
+		accountButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
 	}
 }
