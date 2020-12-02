@@ -99,7 +99,8 @@ public class LoginWindow extends JFrame {
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						JOptionPane.showMessageDialog(null, "Login Successful");
+						MainMenu frame = new MainMenu(user);
+						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();

@@ -17,13 +17,13 @@ public class DbConnection {
 		} catch (Exception e) {
 			System.out.println("Connection Failed");
 		} finally {
-			try {
-				conn.close();
+			/*try {
+			
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		} 
+			}*/
+		}
 		return null;
 		
 	}
