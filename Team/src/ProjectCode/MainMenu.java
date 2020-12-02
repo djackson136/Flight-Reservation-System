@@ -120,9 +120,7 @@ public class MainMenu extends JFrame {
 				try {
 					MyAccountWindow frame = new MyAccountWindow();
 					frame.setVisible(true);
-				} catch(Exception Ex) {
-					System.out.println(e);
-				}
+				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
 	}

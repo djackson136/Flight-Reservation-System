@@ -94,7 +94,6 @@ public class LoginWindow extends JFrame {
 				try {
 					String user = userText.getText();
 					String pass = passText.getText();
-					setUsername(user);
 					Statement stmt = conn.createStatement();
 					String sql = "SELECT * FROM Admin Where Username = '"+user+"' AND Password = '"+pass+"' ";
 					ResultSet rs = stmt.executeQuery(sql);
@@ -131,4 +130,5 @@ public class LoginWindow extends JFrame {
 		});
 	}
 }
+				
 

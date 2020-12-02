@@ -26,7 +26,7 @@ public class FlightWindow extends JFrame {
     private static String arrival;
     private static String date;
     private static String time;
-
+	private JButton bookButton;
 	/**
 	 * Launch the application.
 	 */
@@ -119,10 +119,10 @@ public class FlightWindow extends JFrame {
 		searchButton.setBounds(327, 183, 90, 35);
 		contentPane.add(searchButton);
 
-		btnNewButton = new JButton("Book Flight");
-		btnNewButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
-		btnNewButton.setBounds(548, 505, 117, 35);
-		contentPane.add(btnNewButton);
+		bookButton = new JButton("Book Flight");
+		bookButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
+		bookButton.setBounds(548, 505, 117, 35);
+		contentPane.add(bookButton);
 
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
