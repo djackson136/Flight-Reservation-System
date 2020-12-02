@@ -9,8 +9,8 @@ public class DbConnection {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://35.202.73.103:3306/Customer";
-			String username = "root"; // "daiv"
-			String password = "teamdatabase"; // "project"
+			String username = "daiv"; // "daiv"
+			String password = "project"; // "project"
 			Connection conn = DriverManager.getConnection(url, username, password);
 			return conn;
 		} catch (Exception e) {

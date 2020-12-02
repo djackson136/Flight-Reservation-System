@@ -66,12 +66,37 @@ public class LoginWindow extends JFrame {
 		loginPane.add(passText);
 
 		loginButton = new JButton("Login");
-		loginButton.setBounds(162, 158, 71, 29);
+		loginButton.setBounds(115, 159, 71, 29);
 		getContentPane().add(loginButton);
 
 		registerButton = new JButton("Register");
-		registerButton.setBounds(162, 184, 82, 29);
+		registerButton.setBounds(362, 243, 82, 29);
 		getContentPane().add(registerButton);
+		
+		JButton admButton = new JButton("Admin Login");
+		admButton.setBounds(193, 159, 117, 29);
+		loginPane.add(admButton);
+		
+
+		admButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection conn = DbConnection.connect();
+				try {
+					String user = userText.getText();
+					String pass = passText.getText();
+					Statement stmt = conn.createStatement();
+					String sql = "SELECT * FROM Admin Where Username = '"+user+"' AND Password = '"+pass+"' ";
+					ResultSet rs = stmt.executeQuery(sql);
+					
+					if(rs.next()) {
+						JOptionPane.showMessageDialog(null, "Login Successful");
+					}else {
+						JOptionPane.showMessageDialog(null, "Login Failed");
+						conn.close();
+					}
+			} catch (Exception Ex) {System.out.println(e);}
+			}
+		});
 
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
