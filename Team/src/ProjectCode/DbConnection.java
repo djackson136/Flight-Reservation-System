@@ -10,9 +10,15 @@ public class DbConnection {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://35.202.73.103:3306/Customer";
+<<<<<<< HEAD
 			String username = "root"; // "daiv"
 			String password = "teamdatabase"; // "project"
 			conn = DriverManager.getConnection(url, username, password);
+=======
+			String username = "daiv"; // "daiv"
+			String password = "project"; // "project"
+			Connection conn = DriverManager.getConnection(url, username, password);
+>>>>>>> branch 'master' of https://github.com/djackson136/Team-Project.git
 			return conn;
 		} catch (Exception e) {
 			System.out.println("Connection Failed");
