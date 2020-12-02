@@ -44,7 +44,31 @@ public class MyAccountWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public MyAccountWindow() {
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 550, 400);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(135, 206, 235));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(28, 30, 494, 223);
+		scrollPane.setToolTipText("");
+		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPane.add(scrollPane);
+
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		showButton = new JButton("Show Flights");
+		showButton.setBounds(386, 265, 136, 29);
+		contentPane.add(showButton);
+	}
+public MyAccountWindow(String name) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 400);
@@ -82,11 +106,20 @@ public class MyAccountWindow extends JFrame {
 				table.getColumnModel().getColumn(2).setPreferredWidth(120);
 				table.getColumnModel().getColumn(3).setPreferredWidth(120);
 				String query = "";
-
 				try {
-					//rs.close();
-					//pst.close();
+					query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Accounts WHERE Username = '"
+								+ name + "' ";
+					PreparedStatement pst = conn.prepareStatement(query);
+					ResultSet rs = pst.executeQuery();
+					while (rs.next()) {
+						model.addRow(new Object[] { rs.getString("Dep_City"), rs.getString("Arr_City"),
+								rs.getString("Dep_Date"), rs.getString("Dep_Time"), });
+					}
+
+					rs.close();
+					pst.close();
 					conn.close();
+
 				} catch (Exception ex) {
 					System.out.println("error: " + ex);
 				}

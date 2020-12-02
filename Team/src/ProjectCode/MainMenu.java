@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -118,7 +119,7 @@ public class MainMenu extends JFrame {
 		accountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					MyAccountWindow frame = new MyAccountWindow();
+					MyAccountWindow frame = new MyAccountWindow(name);
 					frame.setVisible(true);
 				} catch (Exception Ex) {System.out.println(e);}
 			}
