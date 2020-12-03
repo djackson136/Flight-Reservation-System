@@ -77,6 +77,15 @@ public class LoginWindow extends JFrame {
 		admButton.setBounds(193, 159, 117, 29);
 		loginPane.add(admButton);
 		
+		registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					RegisterWindow frame = new RegisterWindow();
+					frame.setVisible(true);
+				}
+				catch (Exception Ex) {System.out.println(e);}	
+				}
+			});
 
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
