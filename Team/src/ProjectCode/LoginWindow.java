@@ -18,6 +18,8 @@ public class LoginWindow extends JFrame {
 	private JPasswordField passText;
 	private static JButton loginButton;
 	private JButton registerButton;
+	private static String username;
+    private static String password;
 
 	static Connection conn = null;
 
@@ -36,7 +38,6 @@ public class LoginWindow extends JFrame {
 			}
 		});
 	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -86,7 +87,11 @@ public class LoginWindow extends JFrame {
 				catch (Exception Ex) {System.out.println(e);}	
 				}
 			});
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> branch 'master' of https://github.com/djackson136/Team-Project.git
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -98,7 +103,8 @@ public class LoginWindow extends JFrame {
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						JOptionPane.showMessageDialog(null, "Login Successful");
+						MainMenu frame = new MainMenu(user);
+						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
@@ -118,7 +124,8 @@ public class LoginWindow extends JFrame {
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						JOptionPane.showMessageDialog(null, "Login Successful");
+						MainMenu frame = new MainMenu(user);
+						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
@@ -128,4 +135,5 @@ public class LoginWindow extends JFrame {
 		});
 	}
 }
+				
 

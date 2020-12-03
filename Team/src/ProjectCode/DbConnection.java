@@ -22,15 +22,20 @@ public class DbConnection {
 			System.out.println("Connection Failed");
 <<<<<<< HEAD
 		} finally {
-			try {
-				conn.close();
+			/*try {
+			
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+<<<<<<< HEAD
 			}
 =======
 >>>>>>> branch 'master' of https://github.com/djackson136/Team-Project.git
 		} 
+=======
+			}*/
+		}
+>>>>>>> branch 'master' of https://github.com/djackson136/Team-Project.git
 		return null;
 		
 	}

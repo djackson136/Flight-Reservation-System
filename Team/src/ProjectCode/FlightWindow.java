@@ -22,6 +22,14 @@ public class FlightWindow extends JFrame {
 	private JTextField dateText;
 	private JTextField timeText;
 
+	
+	private JButton btnNewButton;
+	private static String departure;
+    private static String arrival;
+    private static String date;
+    private static String time;
+	private JButton bookButton;
+
 	/**
 	 * Launch the application.
 	 */
