@@ -11,7 +11,7 @@ import java.sql.*;
 
 @SuppressWarnings("serial")
 public class FlightWindow extends JFrame {
-
+	
 	private JPanel contentPane;
 	private JTextField depText;
 	private JTable table;
@@ -45,11 +45,15 @@ public class FlightWindow extends JFrame {
 			}
 		});
 	}
-
+	
+	public FlightWindow() {
+		
+	}
+	
 	/**
 	 * Create the frame.
 	 */
-	public FlightWindow() {
+	public FlightWindow(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 718, 588);
 		contentPane = new JPanel();
@@ -127,10 +131,46 @@ public class FlightWindow extends JFrame {
 		bookButton.setBounds(548, 505, 117, 35);
 		contentPane.add(bookButton);
 		
-		
+		// Select and book flight
 		bookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
+				try {
+					if (table.getSelectedRowCount() == 1) {
+						// Stores the values for each column of the selected flight
+						String FWDepCity = (String)table.getValueAt(table.getSelectedRow(), 0);
+						String FWArrCity = (String)table.getValueAt(table.getSelectedRow(), 1);
+						String FWDepDate = (String)table.getValueAt(table.getSelectedRow(), 2);
+						String FWDepTime = (String)table.getValueAt(table.getSelectedRow(), 3);
+						
+						Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+						String FlightID = "SELECT Flight_ID FROM Flights WHERE Dep_City = '"+FWDepCity+"' AND Arr_City = '"+FWArrCity+"'"
+															       + "AND Dep_Date = '"+FWDepDate+"' AND Dep_Time = '"+FWDepTime+"'";
+						String SSN = "SELECT SSN FROM Customers WHERE Username = '"+name+"'";
+						String book = "INSERT INTO BookedFlights VALUES ('"+FlightID+"', '"+SSN+"')";
+						conn.setAutoCommit(false);
+						
+						stmt.addBatch(FlightID);
+						stmt.addBatch(SSN);
+						stmt.addBatch(book);
+						stmt.executeBatch();
+						conn.commit();
+						
+						ResultSet rs = stmt.executeQuery("select * from BookedFlights");
+						
+						
+						//while (rs.next()) {
+						//}
+						
+						// JOptionPane.showMessageDialog(null, FWDepCity + "\n" + FWArrCity + "\n" + FWDepDate + "\n" + FWDepTime);
+						
+					} else 
+						JOptionPane.showMessageDialog(null, "Select only 1 row");
+					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				
 			}
 		});
 		
@@ -161,15 +201,14 @@ public class FlightWindow extends JFrame {
 
 					if (time.isBlank() && !date.isBlank()) {
 						query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
-								+ departure + "' " + "AND Arr_City = '" + arrival + "' " + "AND Dep_Date = '" + date
-								+ "' ";
+								+departure+"' " + "AND Arr_City = '"+arrival+"' " + "AND Dep_Date = '"+date+"' ";
 					} else if (time.isBlank() && date.isBlank()) {
 						query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
-								+ departure + "' " + "AND Arr_City = '" + arrival + "' ";
+								+departure+"' " + "AND Arr_City = '"+arrival+"' ";
 					} else {
 						query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
-								+ departure + "' " + "AND Arr_City = '" + arrival + "' " + "AND Dep_Date = '" + date
-								+ "' " + "AND Dep_Time = '" + time + "' ";
+								+departure+"' " + "AND Arr_City = '"+arrival+"' " + "AND Dep_Date = '"+date+"' " 
+								+ "AND Dep_Time = '" + time + "' ";
 					}
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
@@ -179,13 +218,10 @@ public class FlightWindow extends JFrame {
 								rs.getString("Dep_Date"), rs.getString("Dep_Time"), });
 					}
 
-					rs.close();
-					pst.close();
-					conn.close();
-
 				} catch (Exception ex) {
 					System.out.println("error: " + ex);
-				}
+				} 
+				
 			}
 		});
 	}
