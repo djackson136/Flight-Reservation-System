@@ -193,7 +193,7 @@ public class RegisterWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				try {
-					PreparedStatement ps = conn.prepareStatement("INSERT INTO RegisterCustomer (SSN, Username, Password, First_Name, Last_Name, Email, Street_Address, City, State, Zipcode, Security_Question, Security_Answer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+					PreparedStatement ps = conn.prepareStatement("INSERT INTO Customers (SSN, Username, Password, First_Name, Last_Name, Email, Street_Address, City, State, Zipcode, Security_Question, Security_Answer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 					ps.setString(1, ssnText.getText());
 					ps.setString(2, userText.getText());
 					ps.setString(3, passText.getText());

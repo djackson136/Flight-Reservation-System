@@ -18,6 +18,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class MyAccountWindow extends JFrame {
 
@@ -56,7 +58,7 @@ public class MyAccountWindow extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 30, 494, 223);
+		scrollPane.setBounds(28, 79, 494, 223);
 		scrollPane.setToolTipText("");
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPane.add(scrollPane);
@@ -65,8 +67,15 @@ public class MyAccountWindow extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		showButton = new JButton("Show Flights");
-		showButton.setBounds(386, 265, 136, 29);
+		showButton.setFont(new Font("Avenir Next", Font.PLAIN, 13));
+		showButton.setBounds(386, 314, 136, 29);
 		contentPane.add(showButton);
+		
+		JLabel Header = new JLabel("Booked Flights");
+		Header.setHorizontalAlignment(SwingConstants.CENTER);
+		Header.setFont(new Font("DIN Alternate", Font.BOLD, 20));
+		Header.setBounds(28, 33, 494, 40);
+		contentPane.add(Header);
 	}
 public MyAccountWindow(String name) {
 		
@@ -107,7 +116,7 @@ public MyAccountWindow(String name) {
 				table.getColumnModel().getColumn(3).setPreferredWidth(120);
 				String query = "";
 				try {
-					query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Accounts WHERE Username = '"
+					query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"
 								+ name + "' ";
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
@@ -126,5 +135,4 @@ public MyAccountWindow(String name) {
 			}
 		});
 	}
-
 }

@@ -99,7 +99,7 @@ public class MainMenu extends JFrame {
 		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		contentPane.add(welcomeText);
 		
-		JButton bookFlightButton = new JButton("Book a Flight");
+		JButton bookFlightButton = new JButton("Edit Flight");
 		bookFlightButton.setBounds(152, 104, 117, 29);
 		contentPane.add(bookFlightButton);
 		
@@ -111,7 +111,7 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				try {
-					FlightWindow frame = new FlightWindow();
+					FlightWindow frame = new FlightWindow(name);
 					frame.setVisible(true);
 				} catch (Exception Ex) {System.out.println(e);}
 			}

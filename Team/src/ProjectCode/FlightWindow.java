@@ -134,63 +134,74 @@ public class FlightWindow extends JFrame {
 		// Select and book flight
 		bookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = DbConnection.connect();
+				String sql = "";
 				try {
 					if (table.getSelectedRowCount() == 1) {
 						// Stores the values for each column of the selected flight
-						String FWDepCity = (String)table.getValueAt(table.getSelectedRow(), 0);
-						String FWArrCity = (String)table.getValueAt(table.getSelectedRow(), 1);
-						String FWDepDate = (String)table.getValueAt(table.getSelectedRow(), 2);
-						String FWDepTime = (String)table.getValueAt(table.getSelectedRow(), 3);
-						
-						Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-						String FlightID = "SELECT Flight_ID FROM Flights WHERE Dep_City = '"+FWDepCity+"' AND Arr_City = '"+FWArrCity+"'"
-															       + "AND Dep_Date = '"+FWDepDate+"' AND Dep_Time = '"+FWDepTime+"'";
-						String SSN = "SELECT SSN FROM Customers WHERE Username = '"+name+"'";
-						String book = "INSERT INTO BookedFlights VALUES ('"+FlightID+"', '"+SSN+"')";
-						conn.setAutoCommit(false);
-						
-						stmt.addBatch(FlightID);
-						stmt.addBatch(SSN);
-						stmt.addBatch(book);
-						stmt.executeBatch();
-						conn.commit();
-						
-						ResultSet rs = stmt.executeQuery("select * from BookedFlights");
-						
-						
-						//while (rs.next()) {
-						//}
-						
-						// JOptionPane.showMessageDialog(null, FWDepCity + "\n" + FWArrCity + "\n" + FWDepDate + "\n" + FWDepTime);
-						
-					} else 
-						JOptionPane.showMessageDialog(null, "Select only 1 row");
-					
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				
-			}
-		});
-		
-		
-		
+						String FlightID = (String)table.getValueAt(table.getSelectedRow(), 0);
+						String FWDepCity = (String)table.getValueAt(table.getSelectedRow(), 1);
+						String FWArrCity = (String)table.getValueAt(table.getSelectedRow(), 2);
+						String FWDepDate = (String)table.getValueAt(table.getSelectedRow(), 3);
+						String FWDepTime = (String)table.getValueAt(table.getSelectedRow(), 4);
+						String ssn = "";
+						String username = "";
+						String firstName = "";
+						String lastName = "";
+					Connection con = DbConnection.connect();
 
+		            Statement statement = con.createStatement();
+		            
+		            ResultSet rs = statement.executeQuery("SELECT SSN,Username,First_Name,Last_Name FROM Customers WHERE Username = '"+name+"';");
+		            
+		            
+		            //assigning result database values to variables
+		            while(rs.next()) {
+		            	ssn = rs.getString("SSN");
+		            	username = rs.getString("Username");
+		            	firstName = rs.getString("First_Name");
+		            	lastName = rs.getString("Last_Name");
+		            }
+		            
+		            PreparedStatement ps = con.prepareStatement("INSERT INTO BookedFlights(Flight_ID,SSN,First_Name,Last_Name,Username,Dep_City,Arr_City,Dep_Time,Dep_Date) VALUES(?,?,?,?,?,?,?,?,?);");
+		            
+		            ps.setString(1, FlightID);
+		            ps.setString(2, ssn);
+		            ps.setString(3, firstName);
+		            ps.setString(4, lastName);
+		            ps.setString(5, username);
+		            ps.setString(6, FWDepCity);
+		            ps.setString(7, FWArrCity);
+		            ps.setString(8, FWDepDate);
+		            ps.setString(9, FWDepTime);
+		            int x = ps.executeUpdate();
+					if (x > 0)
+						System.out.println("Flight Booked!");
+					else
+						System.out.println("Booking Failed!");
+					
+				} else 
+					JOptionPane.showMessageDialog(null, "Select only 1 row");
+		        } catch (SQLException e1) {
+		            System.out.println("could not get JDBC connection: " +e);
+		        }
+		    }
+		});
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				DefaultTableModel model = new DefaultTableModel();
+				model.addColumn("Flight Number");
 				model.addColumn("Departure City");
 				model.addColumn("Arrival City");
 				model.addColumn("Departure Date");
 				model.addColumn("Departure Time");
 				table.setModel(model);
 				table.setAutoResizeMode(0);
-				table.getColumnModel().getColumn(0).setPreferredWidth(120);
-				table.getColumnModel().getColumn(1).setPreferredWidth(120);
-				table.getColumnModel().getColumn(2).setPreferredWidth(120);
-				table.getColumnModel().getColumn(3).setPreferredWidth(120);
+				table.getColumnModel().getColumn(0).setPreferredWidth(96);
+				table.getColumnModel().getColumn(1).setPreferredWidth(96);
+				table.getColumnModel().getColumn(2).setPreferredWidth(96);
+				table.getColumnModel().getColumn(3).setPreferredWidth(96);
+				table.getColumnModel().getColumn(4).setPreferredWidth(96);
 				String query = "";
 
 				try {
@@ -200,13 +211,13 @@ public class FlightWindow extends JFrame {
 					String time = timeText.getText();
 
 					if (time.isBlank() && !date.isBlank()) {
-						query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
+						query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
 								+departure+"' " + "AND Arr_City = '"+arrival+"' " + "AND Dep_Date = '"+date+"' ";
 					} else if (time.isBlank() && date.isBlank()) {
-						query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
+						query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
 								+departure+"' " + "AND Arr_City = '"+arrival+"' ";
 					} else {
-						query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
+						query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
 								+departure+"' " + "AND Arr_City = '"+arrival+"' " + "AND Dep_Date = '"+date+"' " 
 								+ "AND Dep_Time = '" + time + "' ";
 					}
@@ -214,7 +225,7 @@ public class FlightWindow extends JFrame {
 					ResultSet rs = pst.executeQuery();
 
 					while (rs.next()) {
-						model.addRow(new Object[] { rs.getString("Dep_City"), rs.getString("Arr_City"),
+						model.addRow(new Object[] { rs.getString("Flight_ID"), rs.getString("Dep_City"), rs.getString("Arr_City"),
 								rs.getString("Dep_Date"), rs.getString("Dep_Time"), });
 					}
 

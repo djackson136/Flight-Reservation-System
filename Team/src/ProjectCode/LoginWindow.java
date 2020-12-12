@@ -87,11 +87,6 @@ public class LoginWindow extends JFrame {
 				catch (Exception Ex) {System.out.println(e);}	
 				}
 			});
-<<<<<<< HEAD
-
-=======
-		
->>>>>>> branch 'master' of https://github.com/djackson136/Team-Project.git
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -120,7 +115,7 @@ public class LoginWindow extends JFrame {
 					String user = userText.getText();
 					String pass = passText.getText();
 					Statement stmt = conn.createStatement();
-					String sql = "SELECT * FROM RegisterCustomer Where Username = '"+user+"' AND Password = '"+pass+"' ";
+					String sql = "SELECT * FROM Customers Where Username = '"+user+"' AND Password = '"+pass+"' ";
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
