@@ -164,18 +164,15 @@ public class FlightWindow extends JFrame {
 		            	lastName = rs.getString("Last_Name");
 		            }
 		            
-		            ps = con.prepareStatement("SELECT Capacity FROM Flights Where Flight_ID = '"+FlightID+"'");
+		            ps = con.prepareStatement("SELECT Capacity FROM Flights WHERE Flight_ID = '"+FlightID+"';");
 		            rs = ps.executeQuery();
 		            rs.next();
 		            capacity = rs.getInt("Capacity");
-		            System.out.println(capacity);
-		            
 		            
 		            ps = con.prepareStatement("SELECT COUNT(Flight_ID) FROM BookedFlights WHERE Flight_ID = '"+FlightID+"';");
 		            rs = ps.executeQuery();
 		            rs.next();
 		            count = rs.getInt("COUNT(Flight_ID)");
-		            System.out.println(count);
 		            
 		            if(count < capacity) {
 		            ps = con.prepareStatement("INSERT INTO BookedFlights(Flight_ID,SSN,First_Name,Last_Name,Username,Dep_City,Arr_City,Dep_Time,Dep_Date) VALUES(?,?,?,?,?,?,?,?,?);");
