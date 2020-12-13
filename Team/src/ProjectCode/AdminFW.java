@@ -349,7 +349,6 @@ public class AdminFW extends JFrame {
 
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					System.out.println();
 				}
 
 			}
