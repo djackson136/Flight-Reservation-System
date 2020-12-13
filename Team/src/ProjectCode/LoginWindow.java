@@ -20,6 +20,7 @@ public class LoginWindow extends JFrame {
 	private JButton registerButton;
 	private static String username;
     private static String password;
+    int status = 0;
 
 	static Connection conn = null;
 
@@ -121,6 +122,7 @@ public class LoginWindow extends JFrame {
 					if(rs.next()) {
 						MainMenu frame = new MainMenu(user);
 						frame.setVisible(true);
+						
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();

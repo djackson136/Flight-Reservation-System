@@ -147,13 +147,15 @@ public class FlightWindow extends JFrame {
 						String username = "";
 						String firstName = "";
 						String lastName = "";
+						int count = 0;
+						int capacity;
+						PreparedStatement ps;
 					Connection con = DbConnection.connect();
 
 		            Statement statement = con.createStatement();
 		            
 		            ResultSet rs = statement.executeQuery("SELECT SSN,Username,First_Name,Last_Name FROM Customers WHERE Username = '"+name+"';");
-		            
-		            
+		          
 		            //assigning result database values to variables
 		            while(rs.next()) {
 		            	ssn = rs.getString("SSN");
@@ -162,7 +164,21 @@ public class FlightWindow extends JFrame {
 		            	lastName = rs.getString("Last_Name");
 		            }
 		            
-		            PreparedStatement ps = con.prepareStatement("INSERT INTO BookedFlights(Flight_ID,SSN,First_Name,Last_Name,Username,Dep_City,Arr_City,Dep_Time,Dep_Date) VALUES(?,?,?,?,?,?,?,?,?);");
+		            ps = con.prepareStatement("SELECT Capacity FROM Flights Where Flight_ID = '"+FlightID+"'");
+		            rs = ps.executeQuery();
+		            rs.next();
+		            capacity = rs.getInt("Capacity");
+		            System.out.println(capacity);
+		            
+		            
+		            ps = con.prepareStatement("SELECT COUNT(Flight_ID) FROM BookedFlights WHERE Flight_ID = '"+FlightID+"';");
+		            rs = ps.executeQuery();
+		            rs.next();
+		            count = rs.getInt("COUNT(Flight_ID)");
+		            System.out.println(count);
+		            
+		            if(count < capacity) {
+		            ps = con.prepareStatement("INSERT INTO BookedFlights(Flight_ID,SSN,First_Name,Last_Name,Username,Dep_City,Arr_City,Dep_Time,Dep_Date) VALUES(?,?,?,?,?,?,?,?,?);");
 		            
 		            ps.setString(1, FlightID);
 		            ps.setString(2, ssn);
@@ -175,14 +191,17 @@ public class FlightWindow extends JFrame {
 		            ps.setString(9, FWDepTime);
 		            int x = ps.executeUpdate();
 					if (x > 0)
-						System.out.println("Flight Booked!");
+						JOptionPane.showMessageDialog(null, "Flight booked!");
 					else
-						System.out.println("Booking Failed!");
+						JOptionPane.showMessageDialog(null, "Unable to book!");
 					
-				} else 
+				}else {
+					JOptionPane.showMessageDialog(null, "Flight is full!");
+				}
+				}else 
 					JOptionPane.showMessageDialog(null, "Select only 1 row");
 		        } catch (SQLException e1) {
-		            System.out.println("could not get JDBC connection: " +e);
+		        	JOptionPane.showMessageDialog(null, "Flight is already booked!");
 		        }
 		    }
 		});
