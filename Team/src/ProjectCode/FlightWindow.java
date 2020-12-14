@@ -237,13 +237,16 @@ public class FlightWindow extends JFrame {
 					String arrival = arrText.getText();
 					String date = dateText.getText();
 					String time = timeText.getText();
-
+					
+					// Allows customer to search for flights without inputting the time
 					if (time.isBlank() && !date.isBlank()) {
 						query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
 								+departure+"' " + "AND Arr_City = '"+arrival+"' " + "AND Dep_Date = '"+date+"' ";
+					// Allows customer to search for flights without inputting the departure date and time
 					} else if (time.isBlank() && date.isBlank()) {
 						query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
 								+departure+"' " + "AND Arr_City = '"+arrival+"' ";
+					// Allows customer to search for flights if all textboxes are filled
 					} else {
 						query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM Flights WHERE Dep_City = '"
 								+departure+"' " + "AND Arr_City = '"+arrival+"' " + "AND Dep_Date = '"+date+"' " 
