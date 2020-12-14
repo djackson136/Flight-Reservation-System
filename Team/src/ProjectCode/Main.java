@@ -4,16 +4,7 @@ import java.awt.EventQueue;
 import java.sql.*;
 
 public class Main {
-	static Connection connection = null;
-	static String databaseName = "";
-	static String url = "jdbc:mysql://localhost:3306/" + databaseName;
-	
-	static String username = "root";
-	static String password = "development";
-	
-	void createConnection() {
-		
-	}
+	Connection conn = DbConnection.connect();
 	
 	public static void main(String[] args) {
 		SplashScreen splash = new SplashScreen();

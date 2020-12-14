@@ -114,10 +114,9 @@ public MyAccountWindow(String name) {
 				table.getColumnModel().getColumn(1).setPreferredWidth(120);
 				table.getColumnModel().getColumn(2).setPreferredWidth(120);
 				table.getColumnModel().getColumn(3).setPreferredWidth(120);
-				String query = "";
+				
 				try {
-					query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"
-								+ name + "' ";
+					String query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"+name+"';";
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
 					while (rs.next()) {

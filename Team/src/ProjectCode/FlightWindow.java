@@ -46,13 +46,10 @@ public class FlightWindow extends JFrame {
 		});
 	}
 	
+	
 	public FlightWindow() {
 		
 	}
-	
-	/**
-	 * Create the frame.
-	 */
 	public FlightWindow(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 718, 588);
@@ -151,8 +148,7 @@ public class FlightWindow extends JFrame {
 						int capacity;
 						PreparedStatement ps;
 					Connection con = DbConnection.connect();
-
-		            Statement statement = con.createStatement();
+					Statement statement = con.createStatement();
 		            
 		            ResultSet rs = statement.executeQuery("SELECT SSN,Username,First_Name,Last_Name FROM Customers WHERE Username = '"+name+"';");
 		          
@@ -211,6 +207,7 @@ public class FlightWindow extends JFrame {
 				model.addColumn("Arrival City");
 				model.addColumn("Departure Date");
 				model.addColumn("Departure Time");
+				// adds model to the table
 				table.setModel(model);
 				table.setAutoResizeMode(0);
 				table.getColumnModel().getColumn(0).setPreferredWidth(96);

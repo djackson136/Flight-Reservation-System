@@ -14,7 +14,7 @@ public class SplashScreen extends JFrame {
 	public static void showProgress(SplashScreen s) {
 		try {
 			for (int i = 0; i <= 100; i++) {
-				Thread.sleep(60);
+				Thread.sleep(40);
 				s.progressBar.setValue(i);
 				s.progress.setText(Integer.toString(i) + "%");
 			}
