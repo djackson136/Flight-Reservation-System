@@ -163,6 +163,7 @@ public class FlightWindow extends JFrame {
 		            	firstName = rs.getString("First_Name");
 		            	lastName = rs.getString("Last_Name");
 		            }
+		            System.out.println();
 		            
 		            ps = con.prepareStatement("SELECT Capacity FROM Flights WHERE Flight_ID = '"+FlightID+"';");
 		            rs = ps.executeQuery();
