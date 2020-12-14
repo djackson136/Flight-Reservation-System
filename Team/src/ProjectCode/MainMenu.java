@@ -111,7 +111,16 @@ public class MainMenu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel welcomeText = new JLabel("Welcome " + name);
+		String FirstName = "";
+		try {
+		Connection con = DbConnection.connect();
+		PreparedStatement ps = con.prepareStatement("SELECT First_Name FROM Customers WHERE username = '"+name+"';");
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		FirstName = rs.getString("First_Name");
+		}catch(Exception Ex) {}
+		
+		JLabel welcomeText = new JLabel("Welcome " + FirstName);
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setBounds(78, 48, 269, 25);
 		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
@@ -136,7 +145,6 @@ public class MainMenu extends JFrame {
 		
 		bookFlightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = DbConnection.connect();
 				try {
 					FlightWindow frame = new FlightWindow(name);
 					frame.setVisible(true);

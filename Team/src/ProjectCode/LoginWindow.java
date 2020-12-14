@@ -116,9 +116,11 @@ public class LoginWindow extends JFrame {
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
+						System.out.println();
 					}
 			} catch (Exception Ex) {System.out.println(e);}
 			}
+			
 		});
 
 		loginButton.addActionListener(new ActionListener() {
