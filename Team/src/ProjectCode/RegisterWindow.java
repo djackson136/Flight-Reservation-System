@@ -216,11 +216,8 @@ public class RegisterWindow extends JFrame  {
 					ps.setInt(10, customer.getZipcode());
 					ps.setString(11, customer.getSecQuestion());
 					ps.setString(12, customer.getSecAnswer());
-					int x = ps.executeUpdate();
-					if (x > 0)
-						System.out.println("Login Successful");
-					else
-						System.out.println("Login Failed");
+					ps.executeUpdate();
+					
 				} catch (Exception ex) {
 					System.out.println(ex);
 				}
