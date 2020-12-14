@@ -52,8 +52,8 @@ public class MainMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel welcomeText = new JLabel("Welcome");
-		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setBounds(78, 48, 269, 25);
+		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		contentPane.add(welcomeText);
 		
@@ -64,6 +64,14 @@ public class MainMenu extends JFrame {
 		JButton accountButton = new JButton("My Account");
 		accountButton.setBounds(152, 145, 117, 29);
 		contentPane.add(accountButton);
+		
+		JButton logOutButton = new JButton("Log Out");
+		logOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		logOutButton.setBounds(327, 243, 117, 29);
+		contentPane.add(logOutButton);
 		
 		bookFlightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,6 +86,16 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					MyAccountWindow frame = new MyAccountWindow();
+					frame.setVisible(true);
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
+		logOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LoginWindow frame = new LoginWindow();
 					frame.setVisible(true);
 				} catch(Exception Ex) {
 					System.out.println(e);
@@ -99,7 +117,7 @@ public class MainMenu extends JFrame {
 		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		contentPane.add(welcomeText);
 		
-		JButton bookFlightButton = new JButton("Edit Flight");
+		JButton bookFlightButton = new JButton("Book Flight");
 		bookFlightButton.setBounds(152, 104, 117, 29);
 		contentPane.add(bookFlightButton);
 		
@@ -107,7 +125,14 @@ public class MainMenu extends JFrame {
 		accountButton.setBounds(152, 145, 117, 29);
 		contentPane.add(accountButton);
 		
-		//addActionListener(bookFlightButton);
+
+		JButton logOutButton = new JButton("Log Out");
+		logOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		logOutButton.setBounds(327, 243, 117, 29);
+		contentPane.add(logOutButton);
 		
 		bookFlightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -115,6 +140,7 @@ public class MainMenu extends JFrame {
 				try {
 					FlightWindow frame = new FlightWindow(name);
 					frame.setVisible(true);
+					dispose();
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
@@ -124,7 +150,19 @@ public class MainMenu extends JFrame {
 				try {
 					MyAccountWindow frame = new MyAccountWindow(name);
 					frame.setVisible(true);
+					dispose();
 				} catch (Exception Ex) {System.out.println(e);}
+			}
+		});
+		logOutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LoginWindow frame = new LoginWindow();
+					frame.setVisible(true);
+					dispose();
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
 			}
 		});
 	}

@@ -29,6 +29,7 @@ public class FlightWindow extends JFrame {
     private static String date;
     private static String time;
 	private JButton bookButton;
+	private JButton backButton;
 
 	/**
 	 * Launch the application.
@@ -45,8 +46,6 @@ public class FlightWindow extends JFrame {
 			}
 		});
 	}
-	
-	
 	public FlightWindow() {
 		
 	}
@@ -127,6 +126,22 @@ public class FlightWindow extends JFrame {
 		bookButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		bookButton.setBounds(548, 505, 117, 35);
 		contentPane.add(bookButton);
+		
+		JButton backButton = new JButton("Back to Main Menu");
+		backButton.setBounds(6, 6, 147, 29);
+		contentPane.add(backButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					MainMenu frame = new MainMenu();
+					frame.setVisible(true);
+					dispose();
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
 		
 		// Select and book flight
 		bookButton.addActionListener(new ActionListener() {
@@ -248,5 +263,6 @@ public class FlightWindow extends JFrame {
 				
 			}
 		});
+		
 	}
 }

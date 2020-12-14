@@ -222,6 +222,8 @@ public class RegisterWindow extends JFrame  {
 				}
 				contentPane.setVisible(false);
 				dispose();
+				LoginWindow frame = new LoginWindow();
+				frame.setVisible(true);
 				
 			}
 		});

@@ -134,6 +134,7 @@ public class LoginWindow extends JFrame {
 					if(rs.next()) {
 						MainMenu frame = new MainMenu(username);
 						frame.setVisible(true);
+						dispose();
 						
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");

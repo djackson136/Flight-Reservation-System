@@ -26,6 +26,7 @@ public class MyAccountWindow extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JButton showButton;
+	private JButton backButton;
 
 	/**
 	 * Launch the application.
@@ -99,6 +100,22 @@ public MyAccountWindow(String name) {
 		showButton = new JButton("Show Flights");
 		showButton.setBounds(386, 265, 136, 29);
 		contentPane.add(showButton);
+		
+		JButton backButton = new JButton("Back to Main Menu");
+		backButton.setBounds(6, 6, 147, 29);
+		contentPane.add(backButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					MainMenu frame = new MainMenu();
+					frame.setVisible(true);
+					dispose();
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
 		
 		showButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
