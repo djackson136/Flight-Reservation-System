@@ -1,5 +1,7 @@
 package ProjectCode;
 
+import java.util.ArrayList;
+
 public class Customer {
 //extends User 
 	private String firstName;
@@ -8,14 +10,16 @@ public class Customer {
 	private String city;
 	private String state;
 	private int zipcode;
-	private String username;
+	private static String username;
 	private String password;
 	private String email;
 	private int ssn;
 	private String secQuestion;
 	private String secAnswer;
+	private ArrayList<Flights> flights;
 	
 	public Customer() {
+		flights = new ArrayList<>();
 		
 	}
 	

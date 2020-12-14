@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class RegisterWindow extends JFrame {
+public class RegisterWindow extends JFrame  {
 
 	private JPanel contentPane;
 	private JTextField firstNameText;
@@ -32,7 +32,7 @@ public class RegisterWindow extends JFrame {
 	private JTextField secQuestionText;
 	private JLabel lblNewLabel;
 	private JTextField secAnswerText;
-	private JTextField stateText;
+	private JComboBox<String> stateBox;
 
 	/**
 	 * Launch the application.
@@ -103,20 +103,14 @@ public class RegisterWindow extends JFrame {
 		stateLabel.setBounds(145, 112, 35, 16);
 		contentPane.add(stateLabel);
 		
-		stateText = new JTextField();
-		stateText.setBounds(192, 107, 59, 26);
-		contentPane.add(stateText);
-		stateText.setColumns(10);
-		
-	
-		/*JComboBox stateBox = new JComboBox();
+		stateBox = new JComboBox<String>();
 		stateBox.setBounds(180, 108, 80, 27);
 		stateBox.setModel(new DefaultComboBoxModel(new String[] {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE",
 				"FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP",
 				"MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD",
 				"TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"}));
 		stateBox.setMaximumRowCount(50);
-		contentPane.add(stateBox);*/
+		contentPane.add(stateBox);
 
 		JLabel zipLabel = new JLabel("Zipcode:");
 		zipLabel.setBounds(260, 112, 60, 16);
@@ -149,7 +143,7 @@ public class RegisterWindow extends JFrame {
 		conPassLabel.setBounds(40, 201, 128, 16);
 		contentPane.add(conPassLabel);
 		
-		conPassText = new JTextField();
+		conPassText = new JPasswordField();
 		conPassText.setBounds(180, 196, 130, 26);
 		contentPane.add(conPassText);
 		conPassText.setColumns(10);
@@ -193,19 +187,35 @@ public class RegisterWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				try {
-					PreparedStatement ps = conn.prepareStatement("INSERT INTO RegisterCustomer (SSN, Username, Password, First_Name, Last_Name, Email, Street_Address, City, State, Zipcode, Security_Question, Security_Answer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-					ps.setString(1, ssnText.getText());
-					ps.setString(2, userText.getText());
-					ps.setString(3, passText.getText());
-					ps.setString(4, firstNameText.getText());
-					ps.setString(5, lastNameText.getText());
-					ps.setString(6, emailText.getText());
-					ps.setString(7, streetText.getText());
-					ps.setString(8, cityText.getText());
-					ps.setString(9, stateText.getText());
-					ps.setString(10, zipText.getText());
-					ps.setString(11, secQuestionText.getText());
-					ps.setString(12, secAnswerText.getText());
+					Customer customer = new Customer();
+					
+					customer.setSsn(Integer.valueOf(ssnText.getText()));
+					customer.setUsername(userText.getText());
+					customer.setPassword(passText.getText());
+					customer.setFirstName(firstNameText.getText());
+					customer.setLastName(lastNameText.getText());
+					customer.setEmail(emailText.getText());
+					customer.setStreetAddress(streetText.getText());
+					customer.setCity(cityText.getText());
+					customer.setState(String.valueOf(stateBox.getSelectedItem()));
+					customer.setZipcode(Integer.valueOf(zipText.getText()));
+					customer.setSecQuestion(secQuestionText.getText());
+					customer.setSecAnswer(secAnswerText.getText());
+					
+					
+					PreparedStatement ps = conn.prepareStatement("INSERT INTO Customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+					ps.setInt(1, customer.getSsn());
+					ps.setString(2, customer.getUsername());
+					ps.setString(3, customer.getPassword());
+					ps.setString(4, customer.getFirstName());
+					ps.setString(5, customer.getLastName());
+					ps.setString(6, customer.getEmail());
+					ps.setString(7, customer.getStreetAddress());
+					ps.setString(8, customer.getCity());
+					ps.setString(9, customer.getState());
+					ps.setInt(10, customer.getZipcode());
+					ps.setString(11, customer.getSecQuestion());
+					ps.setString(12, customer.getSecAnswer());
 					int x = ps.executeUpdate();
 					if (x > 0)
 						System.out.println("Login Successful");
@@ -213,7 +223,6 @@ public class RegisterWindow extends JFrame {
 						System.out.println("Login Failed");
 				} catch (Exception ex) {
 					System.out.println(ex);
-					System.out.println("Resolved");
 				}
 				contentPane.setVisible(false);
 				dispose();
@@ -224,5 +233,6 @@ public class RegisterWindow extends JFrame {
 		contentPane.add(regButton);
 		System.out.println();
 		}
+
 }
 

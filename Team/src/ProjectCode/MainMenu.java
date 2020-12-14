@@ -107,6 +107,8 @@ public class MainMenu extends JFrame {
 		accountButton.setBounds(152, 145, 117, 29);
 		contentPane.add(accountButton);
 		
+		//addActionListener(bookFlightButton);
+		
 		bookFlightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -116,6 +118,7 @@ public class MainMenu extends JFrame {
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
+		
 		accountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

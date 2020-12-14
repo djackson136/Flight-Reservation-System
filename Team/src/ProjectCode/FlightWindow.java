@@ -46,14 +46,11 @@ public class FlightWindow extends JFrame {
 		});
 	}
 	
-	public FlightWindow() {
-		
-	}
 	
 	/**
 	 * Create the frame.
 	 */
-	public FlightWindow(String name) {
+	public FlightWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 718, 588);
 		contentPane = new JPanel();
@@ -133,45 +130,7 @@ public class FlightWindow extends JFrame {
 		
 		// Select and book flight
 		bookButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Connection conn = DbConnection.connect();
-				try {
-					if (table.getSelectedRowCount() == 1) {
-						// Stores the values for each column of the selected flight
-						String FWDepCity = (String)table.getValueAt(table.getSelectedRow(), 0);
-						String FWArrCity = (String)table.getValueAt(table.getSelectedRow(), 1);
-						String FWDepDate = (String)table.getValueAt(table.getSelectedRow(), 2);
-						String FWDepTime = (String)table.getValueAt(table.getSelectedRow(), 3);
-						
-						Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-						String FlightID = "SELECT Flight_ID FROM Flights WHERE Dep_City = '"+FWDepCity+"' AND Arr_City = '"+FWArrCity+"'"
-															       + "AND Dep_Date = '"+FWDepDate+"' AND Dep_Time = '"+FWDepTime+"'";
-						String SSN = "SELECT SSN FROM Customers WHERE Username = '"+name+"'";
-						String book = "INSERT INTO BookedFlights VALUES ('"+FlightID+"', '"+SSN+"')";
-						conn.setAutoCommit(false);
-						
-						stmt.addBatch(FlightID);
-						stmt.addBatch(SSN);
-						stmt.addBatch(book);
-						stmt.executeBatch();
-						conn.commit();
-						
-						ResultSet rs = stmt.executeQuery("select * from BookedFlights");
-						
-						
-						//while (rs.next()) {
-						//}
-						
-						// JOptionPane.showMessageDialog(null, FWDepCity + "\n" + FWArrCity + "\n" + FWDepDate + "\n" + FWDepTime);
-						
-					} else 
-						JOptionPane.showMessageDialog(null, "Select only 1 row");
-					
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				
-			}
+			
 		});
 		
 		
@@ -185,6 +144,7 @@ public class FlightWindow extends JFrame {
 				model.addColumn("Arrival City");
 				model.addColumn("Departure Date");
 				model.addColumn("Departure Time");
+				// adds model to the table
 				table.setModel(model);
 				table.setAutoResizeMode(0);
 				table.getColumnModel().getColumn(0).setPreferredWidth(120);

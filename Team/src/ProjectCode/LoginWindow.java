@@ -18,11 +18,22 @@ public class LoginWindow extends JFrame {
 	private JPasswordField passText;
 	private static JButton loginButton;
 	private JButton registerButton;
-	private static String username;
-    private static String password;
+	private String username;
+    private String password;
 
-	static Connection conn = null;
 
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -78,6 +89,7 @@ public class LoginWindow extends JFrame {
 		admButton.setBounds(193, 159, 117, 29);
 		loginPane.add(admButton);
 		
+		
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -87,23 +99,20 @@ public class LoginWindow extends JFrame {
 				catch (Exception Ex) {System.out.println(e);}	
 				}
 			});
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> branch 'master' of https://github.com/djackson136/Team-Project.git
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				try {
-					String user = userText.getText();
-					String pass = passText.getText();
+					username = userText.getText();
+					password = passText.getText();
+					Customer c1 = new Customer(username, password);
 					Statement stmt = conn.createStatement();
-					String sql = "SELECT * FROM Admin Where Username = '"+user+"' AND Password = '"+pass+"' ";
+					String sql = "SELECT * FROM Admins Where Username = '"+username+"' AND Password = '"+password+"' ";
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						MainMenu frame = new MainMenu(user);
+						MainMenu frame = new MainMenu(username);
 						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
@@ -117,14 +126,14 @@ public class LoginWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
 				try {
-					String user = userText.getText();
-					String pass = passText.getText();
+					username = userText.getText();
+					password = passText.getText();
 					Statement stmt = conn.createStatement();
-					String sql = "SELECT * FROM RegisterCustomer Where Username = '"+user+"' AND Password = '"+pass+"' ";
+					String sql = "SELECT * FROM Customers Where Username = '"+username+"' AND Password = '"+password+"' ";
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						MainMenu frame = new MainMenu(user);
+						MainMenu frame = new MainMenu(username);
 						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
