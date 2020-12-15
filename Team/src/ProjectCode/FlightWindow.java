@@ -201,8 +201,8 @@ public class FlightWindow extends JFrame implements ActionListener {
 		            ps.setString(5, username);
 		            ps.setString(6, FWDepCity);
 		            ps.setString(7, FWArrCity);
-		            ps.setString(8, FWDepDate);
-		            ps.setString(9, FWDepTime);
+		            ps.setString(8, FWDepTime);
+		            ps.setString(9, FWDepDate);
 		            int x = ps.executeUpdate();
 					if (x > 0)
 						JOptionPane.showMessageDialog(null, "Flight booked!");

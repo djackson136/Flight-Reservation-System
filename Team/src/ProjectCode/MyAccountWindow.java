@@ -50,15 +50,15 @@ public class MyAccountWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-
-	public MyAccountWindow() {
+	
+	public MyAccountWindow() {	
 	}
-
+	
 	public MyAccountWindow(String name) {
-
+		
 		Connection conn = DbConnection.connect();
 		Flights flight = new Flights();
-
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 400);
 		contentPane = new JPanel();
@@ -66,7 +66,7 @@ public class MyAccountWindow extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(28, 30, 494, 223);
 		scrollPane.setToolTipText("");
@@ -75,20 +75,20 @@ public class MyAccountWindow extends JFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-
+		
 		showButton = new JButton("Show Flights");
 		showButton.setBounds(386, 265, 136, 29);
 		contentPane.add(showButton);
-
+		
 		JButton backButton = new JButton("Back to Main Menu");
 		backButton.setBounds(6, 6, 147, 29);
 		contentPane.add(backButton);
-
+		
 		JButton deleteButton = new JButton("Delete Flight");
 		deleteButton.setFont(new Font("Avenir Next", Font.PLAIN, 13));
 		deleteButton.setBounds(38, 313, 117, 29);
 		contentPane.add(deleteButton);
-
+		
 		// go back to main menu
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -116,13 +116,13 @@ public class MyAccountWindow extends JFrame {
 				table.getColumnModel().getColumn(1).setPreferredWidth(120);
 				table.getColumnModel().getColumn(2).setPreferredWidth(120);
 				table.getColumnModel().getColumn(3).setPreferredWidth(120);
-
+				
 				try {
 					//selecting the details of the flights booked by logged in customer from BookedFlights database
 					String query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"+name+"';";
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
-
+					
 					// adding selected values to the model to show the user
 					while (rs.next()) {
 						model.addRow(new Object[] { rs.getString("Dep_City"), rs.getString("Arr_City"),
@@ -167,7 +167,7 @@ public class MyAccountWindow extends JFrame {
 							} catch (SQLException Ex) {
 								Ex.printStackTrace();
 							}
-
+							
 						}
 
 					}
