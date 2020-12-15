@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -79,6 +80,8 @@ public class MyAccountWindow extends JFrame {
 		contentPane.add(Header);
 	}
 public MyAccountWindow(String name) {
+	
+	Connection conn = DbConnection.connect();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 400);
@@ -120,7 +123,6 @@ public MyAccountWindow(String name) {
 		//shows all flights booked by the logged in customer
 		showButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = DbConnection.connect();
 				DefaultTableModel model = new DefaultTableModel();
 				model.addColumn("Departure City");
 				model.addColumn("Arrival City");
@@ -153,5 +155,36 @@ public MyAccountWindow(String name) {
 				}
 			}
 		});
+		
+		// click button to delete flights
+				deleteButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+
+						// deletes selected flight from Flights database
+						try {
+							flights.setFlightID(Integer.valueOf(idText.getText()));
+							
+							DefaultTableModel model = (DefaultTableModel) table.getModel();
+							int i = table.getSelectedRow();
+							
+							if (table.getSelectedRowCount() == 1) {
+								// finds the Flight ID of selected row
+								int flightid = flights.getFlightID();
+								PreparedStatement ps = conn.prepareStatement("DELETE FROM Flights WHERE Flight_ID = '" + flightid + "';");
+								// removes row from database and then the table
+								ps.executeUpdate();
+								System.out.println(ps.toString());
+								model.removeRow(i);
+							} else
+								JOptionPane.showMessageDialog(null, "Select only 1 row");
+
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+
+					}
+
+				});
 	}
 }

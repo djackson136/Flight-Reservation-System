@@ -143,7 +143,6 @@ public class FlightWindow extends JFrame {
 				}
 			}
 		});
-		
 		// Select and book flight
 		bookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
