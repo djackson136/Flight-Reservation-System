@@ -20,6 +20,8 @@ public class LoginWindow extends JFrame {
 	private JButton registerButton;
 	private String username;
     private String password;
+    private JLabel icon;
+       
 
 
 	public String getUsername() {
@@ -38,6 +40,14 @@ public class LoginWindow extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		SplashScreen splash = new SplashScreen();
+		splash.setVisible(true);
+		SplashScreen.showProgress(splash);
+		
+		
+		splash.setVisible(false);
+		splash.dispose();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -53,43 +63,58 @@ public class LoginWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginWindow() {
+		setTitle("Login");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 494, 339);
 		loginPane = new JPanel();
 		loginPane.setBorder(new EmptyBorder(30, 30, 30, 30));
 		setContentPane(loginPane);
 		loginPane.setLayout(null);
 
 		JLabel userLabel = new JLabel("Username:");
-		userLabel.setBounds(115, 106, 66, 16);
+		userLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
+		userLabel.setBounds(155, 98, 82, 16);
 		loginPane.add(userLabel);
 
 		userText = new JTextField();
-		userText.setBounds(193, 104, 114, 20);
+		userText.setBounds(236, 90, 114, 30);
 		loginPane.add(userText);
 		userText.setColumns(10);
 
 		JLabel passLabel = new JLabel("Password:");
-		passLabel.setBounds(118, 131, 63, 16);
+		passLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
+		passLabel.setBounds(155, 138, 71, 16);
 		getContentPane().add(passLabel);
 
 		passText = new JPasswordField();
-		passText.setBounds(193, 126, 114, 26);
+		passText.setBounds(236, 130, 114, 30);
 		loginPane.add(passText);
 
 		loginButton = new JButton("Login");
-		loginButton.setBounds(115, 159, 71, 29);
+		loginButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		loginButton.setFont(new Font("Apple Symbols", Font.PLAIN, 16));
+		loginButton.setBounds(163, 184, 71, 32);
 		getContentPane().add(loginButton);
 
 		registerButton = new JButton("Register");
-		registerButton.setBounds(362, 243, 82, 29);
+		registerButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		registerButton.setFont(new Font("Apple Symbols", Font.PLAIN, 16));
+		registerButton.setBounds(373, 259, 82, 32);
 		getContentPane().add(registerButton);
 		
 		JButton admButton = new JButton("Admin Login");
-		admButton.setBounds(193, 159, 117, 29);
+		admButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		admButton.setFont(new Font("Apple Symbols", Font.PLAIN, 16));
+		admButton.setBounds(236, 184, 117, 32);
 		loginPane.add(admButton);
 		
+		icon = new JLabel("");
+		Image img = new ImageIcon(this.getClass().getResource("/modern.png")).getImage();
+		icon.setIcon(new ImageIcon(img));
+		icon.setBounds(-21, -86, 547, 416);
+		loginPane.add(icon);
 		
+		//Go to register window
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -99,6 +124,7 @@ public class LoginWindow extends JFrame {
 				catch (Exception Ex) {System.out.println(e);}	
 				}
 			});
+		//login button for admin(search admin database)
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -111,7 +137,7 @@ public class LoginWindow extends JFrame {
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						MainMenu frame = new MainMenu(username);
+						AdminFW frame = new AdminFW();
 						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
@@ -122,7 +148,7 @@ public class LoginWindow extends JFrame {
 			}
 			
 		});
-
+		//login button for customers(search customers database)
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();

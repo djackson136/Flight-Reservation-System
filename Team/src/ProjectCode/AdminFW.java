@@ -1,6 +1,5 @@
 package ProjectCode;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -22,12 +21,13 @@ import java.awt.event.MouseAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseEvent;
 
-public class AdminFW extends JFrame {
+public class AdminFW extends JFrame implements ActionListener {
 	private static JTable table;
 	private static DefaultTableModel model;
 	private JPanel contentPane;
@@ -38,6 +38,10 @@ public class AdminFW extends JFrame {
 	private JTextField dateText;
 	private JTextField timeText;
 	private JTextField idText;
+	private JButton addButton;
+	private JButton updateButton;
+	private JButton deleteButton;
+	private Flights flights;
 
 	/**
 	 * Launch the application.
@@ -54,26 +58,12 @@ public class AdminFW extends JFrame {
 			}
 		});
 	}
-	/*
-	 * public void showData() { try { String query = "SELECT * FROM Flights;";
-	 * PreparedStatement ps = conn.prepareStatement(query); ResultSetrs =
-	 * ps.executeQuery();
-	 * 
-	 * while (rs.next()) { model.addRow(new Object[] { rs.getString("FlightID"),
-	 * rs.getString("Capacity"), rs.getString("Dep_City"), rs.getString("Arr_City"),
-	 * rs.getString("Dep_Date"), rs.getString("Dep_Time") }); }
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Create the frame.
 	 */
-	public AdminFW() {
+	public AdminFW() throws SQLException {
+		new Flights();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1144, 603);
 		contentPane = new JPanel();
@@ -91,24 +81,26 @@ public class AdminFW extends JFrame {
 		scrollPane.setBounds(452, 104, 646, 378);
 		contentPane.add(scrollPane);
 
-		JLabel lblNewLabel = new JLabel("Flight Database");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("DIN Alternate", Font.BOLD | Font.ITALIC, 35));
-		lblNewLabel.setBounds(369, 19, 263, 62);
-		contentPane.add(lblNewLabel);
+		JLabel title = new JLabel("Flight Database");
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setForeground(new Color(255, 255, 255));
+		title.setFont(new Font("DIN Alternate", Font.BOLD | Font.ITALIC, 35));
+		title.setBounds(480, 21, 263, 62);
+		contentPane.add(title);
 
-		JButton addButton = new JButton("Add");
+		addButton = new JButton("Add");
 		addButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		addButton.setBounds(144, 431, 125, 35);
 		contentPane.add(addButton);
 
-		JButton updateButton = new JButton("Update");
+		addButton.addActionListener(this);
+
+		updateButton = new JButton("Update");
 		updateButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		updateButton.setBounds(144, 473, 125, 35);
 		contentPane.add(updateButton);
 
-		JButton deleteButton = new JButton("Delete");
+		deleteButton = new JButton("Delete");
 		deleteButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		deleteButton.setBounds(144, 515, 125, 35);
 		contentPane.add(deleteButton);
@@ -129,14 +121,12 @@ public class AdminFW extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(115);
 		table.getColumnModel().getColumn(4).setPreferredWidth(105);
 		table.getColumnModel().getColumn(5).setPreferredWidth(105);
-		
-		
 
-		// displays all the flights in the database
-		Connection con = DbConnection.connect();
+		// Displays all the flights in the database
+		Connection conn = DbConnection.connect();
 		try {
 			String query = "SELECT * FROM Flights;";
-			PreparedStatement ps = con.prepareStatement(query);
+			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -146,7 +136,8 @@ public class AdminFW extends JFrame {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
+			System.out.println("Could not populate flights table");
 		}
 
 		capacityText = new JTextField();
@@ -208,87 +199,29 @@ public class AdminFW extends JFrame {
 		timeLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		timeLabel.setBounds(52, 360, 169, 46);
 		contentPane.add(timeLabel);
-
-		// click button to add flights
-		addButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String error = "";
-				Connection conn = DbConnection.connect();
-				try {
-					Flights flights = new Flights();
-
-					flights.setFlightID(Integer.valueOf(idText.getText()));
-					flights.setCapacity(Integer.valueOf(capacityText.getText()));
-					flights.setDepCity(depCityText.getText());
-					flights.setArrCity(arrCityText.getText());
-					flights.setDepDate(dateText.getText());
-					flights.setDepTime(timeText.getText());
-
-					PreparedStatement ps = conn.prepareStatement("INSERT INTO Flights VALUES (?, ?, ?, ?, ?, ?);");
-
-					ps.setInt(1, flights.getFlightID());
-					ps.setInt(2, flights.getCapacity());
-					ps.setString(3, flights.getDepCity());
-					ps.setString(4, flights.getArrCity());
-					ps.setString(5, flights.getDepDate());
-					ps.setString(6, flights.getDepTime());
-
-					ps.executeUpdate();
-					error = ps.toString();
-
-					model.addRow(new Object[] { flights.getFlightID(), flights.getCapacity(), flights.getDepCity(),
-							flights.getArrCity(), flights.getDepDate(), flights.getDepTime(),
-
-					});
-				}
-
-				catch (Exception ex) {
-					System.out.println("Not working");
-					System.out.println(error);
-				}
-			}
-
-		});
-
-		// click button to delete flights
-		deleteButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				// deletes selected flight from Flights database
-				try {
-					Connection conn = DbConnection.connect();
-					
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					int i = table.getSelectedRow();
-					
-					if (table.getSelectedRowCount() == 1) {
-						// finds the Flight ID of selected row
-						String flightid = (String) table.getValueAt(i, 0);
-						String query = "DELETE FROM Flights WHERE Flight_ID = '" + flightid + "' ";
-						PreparedStatement ps = conn.prepareStatement(query);
-						// removes row from database and then the table
-						ps.executeUpdate();
-						model.removeRow(i);
-					} else
-						JOptionPane.showMessageDialog(null, "Select only 1 row");
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-
-			}
-
-		});
 		
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.setBounds(1013, 540, 125, 35);
+		contentPane.add(logoutButton);
+		
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LoginWindow frame = new LoginWindow();
+					frame.setVisible(true);
+					dispose();
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
 		// click on row to show in text fields
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i = table.getSelectedRow();
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				
+
 				// displays selected row in text fields
 				idText.setText(model.getValueAt(i, 0).toString());
 				capacityText.setText(model.getValueAt(i, 1).toString());
@@ -296,24 +229,22 @@ public class AdminFW extends JFrame {
 				arrCityText.setText(model.getValueAt(i, 3).toString());
 				dateText.setText(model.getValueAt(i, 4).toString());
 				timeText.setText(model.getValueAt(i, 5).toString());
-			
+
 			}
 		});
-		
 
 		// click button to update flights
 		updateButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				Flights flights = new Flights();
-				
+				flights = new Flights();
+
 				flights.setFlightID(Integer.valueOf(idText.getText()));
 				flights.setCapacity(Integer.valueOf(capacityText.getText()));
 				flights.setDepCity(depCityText.getText());
 				flights.setArrCity(arrCityText.getText());
 				flights.setDepDate(dateText.getText());
 				flights.setDepTime(timeText.getText());
-				
+
 				int i = table.getSelectedRow();
 				if (table.getSelectedRowCount() == 1) {
 					// changes the values of data in table
@@ -325,27 +256,60 @@ public class AdminFW extends JFrame {
 					model.setValueAt(flights.getDepTime(), i, 5);
 				} else
 					JOptionPane.showMessageDialog(null, "Select only 1 row");
-				
+
 				try {
 					// updates selected flight in Flights database
 					Connection conn = DbConnection.connect();
 					String query = "UPDATE Flights SET Capacity = ?, Dep_City = ?, Arr_City = ?, Dep_Date = ?, Dep_Time = ? WHERE Flight_ID = ?;";
 					PreparedStatement ps = conn.prepareStatement(query);
-					
+
 					ps.setInt(1, flights.getCapacity());
 					ps.setString(2, flights.getDepCity());
 					ps.setString(3, flights.getArrCity());
 					ps.setString(4, flights.getDepDate());
 					ps.setString(5, flights.getDepTime());
 					ps.setInt(6, flights.getFlightID());
-					
+
 					int x = ps.executeUpdate();
-					System.out.println(ps.toString());
-					
 					if (x > 0)
-						System.out.println("Update Successful");
+						JOptionPane.showMessageDialog(null, "Flight Updated");
 					else
-						System.out.println("Update Failed");
+						JOptionPane.showMessageDialog(null, "Flight Update Failed");
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+
+			}
+		});
+
+		// click button to delete flights
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// deletes selected flight from Flights database
+				try {
+					flights = new Flights();
+					flights.setFlightID(Integer.valueOf(idText.getText()));
+
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					int i = table.getSelectedRow();
+
+					if (table.getSelectedRowCount() == 1) {
+						// finds the Flight ID of selected row
+						int flightid = flights.getFlightID();
+						PreparedStatement ps = conn
+								.prepareStatement("DELETE FROM Flights WHERE Flight_ID = '" + flightid + "';");
+						// removes row from database and then the table
+						model.removeRow(i);
+						int x = ps.executeUpdate();
+						
+						if (x > 0)
+							JOptionPane.showMessageDialog(null, "Flight Deleted");
+						else
+							JOptionPane.showMessageDialog(null, "Delete Flight Failed");
+					} else
+						JOptionPane.showMessageDialog(null, "Select only 1 row");
 
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -356,4 +320,48 @@ public class AdminFW extends JFrame {
 		});
 
 	}
+
+	// Click button to add flights
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == addButton) {
+			Connection conn = DbConnection.connect();
+			try {
+				flights.setFlightID(Integer.valueOf(idText.getText()));
+				flights.setCapacity(Integer.valueOf(capacityText.getText()));
+				flights.setDepCity(depCityText.getText());
+				flights.setArrCity(arrCityText.getText());
+				flights.setDepDate(dateText.getText());
+				flights.setDepTime(timeText.getText());
+
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO Flights VALUES (?, ?, ?, ?, ?, ?);");
+
+				ps.setInt(1, flights.getFlightID());
+				ps.setInt(2, flights.getCapacity());
+				ps.setString(3, flights.getDepCity());
+				ps.setString(4, flights.getArrCity());
+				ps.setString(5, flights.getDepDate());
+				ps.setString(6, flights.getDepTime());
+
+				int x = ps.executeUpdate();
+		
+				if (x > 0)
+					JOptionPane.showMessageDialog(null, "Flight Added");
+				else
+					JOptionPane.showMessageDialog(null, "Add Flight Failed");
+		
+				model.addRow(new Object[] { flights.getFlightID(), flights.getCapacity(), flights.getDepCity(),
+						flights.getArrCity(), flights.getDepDate(), flights.getDepTime(),
+				});
+				ps.close();
+			}
+
+			catch (Exception ex) {
+				System.out.println("Not working");
+			} finally {
+				
+			}
+		}
+	}
+
 }
