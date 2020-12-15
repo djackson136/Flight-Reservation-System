@@ -38,6 +38,8 @@ public class AdminFW extends JFrame {
 	private JTextField dateText;
 	private JTextField timeText;
 	private JTextField idText;
+	Flights flights = new Flights();
+	
 
 	/**
 	 * Launch the application.
@@ -209,15 +211,13 @@ public class AdminFW extends JFrame {
 		timeLabel.setBounds(52, 360, 169, 46);
 		contentPane.add(timeLabel);
 
+	
 		// click button to add flights
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String error = "";
-				Connection conn = DbConnection.connect();
 				try {
-					Flights flights = new Flights();
-
 					flights.setFlightID(Integer.valueOf(idText.getText()));
 					flights.setCapacity(Integer.valueOf(capacityText.getText()));
 					flights.setDepCity(depCityText.getText());
@@ -225,8 +225,8 @@ public class AdminFW extends JFrame {
 					flights.setDepDate(dateText.getText());
 					flights.setDepTime(timeText.getText());
 
-					PreparedStatement ps = conn.prepareStatement("INSERT INTO Flights VALUES (?, ?, ?, ?, ?, ?);");
-
+					PreparedStatement ps = con.prepareStatement("INSERT INTO Flights VALUES (?, ?, ?, ?, ?, ?);");
+					
 					ps.setInt(1, flights.getFlightID());
 					ps.setInt(2, flights.getCapacity());
 					ps.setString(3, flights.getDepCity());
@@ -235,8 +235,7 @@ public class AdminFW extends JFrame {
 					ps.setString(6, flights.getDepTime());
 
 					ps.executeUpdate();
-					error = ps.toString();
-
+					System.out.println(ps.toString());
 					model.addRow(new Object[] { flights.getFlightID(), flights.getCapacity(), flights.getDepCity(),
 							flights.getArrCity(), flights.getDepDate(), flights.getDepTime(),
 
@@ -258,18 +257,18 @@ public class AdminFW extends JFrame {
 
 				// deletes selected flight from Flights database
 				try {
-					Connection conn = DbConnection.connect();
+					flights.setFlightID(Integer.valueOf(idText.getText()));
 					
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					int i = table.getSelectedRow();
 					
 					if (table.getSelectedRowCount() == 1) {
 						// finds the Flight ID of selected row
-						String flightid = (String) table.getValueAt(i, 0);
-						String query = "DELETE FROM Flights WHERE Flight_ID = '" + flightid + "' ";
-						PreparedStatement ps = conn.prepareStatement(query);
+						int flightid = flights.getFlightID();
+						PreparedStatement ps = con.prepareStatement("DELETE FROM Flights WHERE Flight_ID = '" + flightid + "';");
 						// removes row from database and then the table
 						ps.executeUpdate();
+						System.out.println(ps.toString());
 						model.removeRow(i);
 					} else
 						JOptionPane.showMessageDialog(null, "Select only 1 row");
@@ -328,9 +327,8 @@ public class AdminFW extends JFrame {
 				
 				try {
 					// updates selected flight in Flights database
-					Connection conn = DbConnection.connect();
 					String query = "UPDATE Flights SET Capacity = ?, Dep_City = ?, Arr_City = ?, Dep_Date = ?, Dep_Time = ? WHERE Flight_ID = ?;";
-					PreparedStatement ps = conn.prepareStatement(query);
+					PreparedStatement ps = con.prepareStatement(query);
 					
 					ps.setInt(1, flights.getCapacity());
 					ps.setString(2, flights.getDepCity());

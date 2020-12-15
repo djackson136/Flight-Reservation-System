@@ -105,6 +105,7 @@ public MyAccountWindow(String name) {
 		backButton.setBounds(6, 6, 147, 29);
 		contentPane.add(backButton);
 		
+		//go back to main menu
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -116,7 +117,7 @@ public MyAccountWindow(String name) {
 				}
 			}
 		});
-		
+		//shows all flights booked by the logged in customer
 		showButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -133,9 +134,11 @@ public MyAccountWindow(String name) {
 				table.getColumnModel().getColumn(3).setPreferredWidth(120);
 				
 				try {
+					//selecting the details of the flights booked by logged in customer from BookedFlights database
 					String query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"+name+"';";
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
+					//adding selected values to the model to show the user
 					while (rs.next()) {
 						model.addRow(new Object[] { rs.getString("Dep_City"), rs.getString("Arr_City"),
 								rs.getString("Dep_Date"), rs.getString("Dep_Time"), });

@@ -38,6 +38,14 @@ public class LoginWindow extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		SplashScreen splash = new SplashScreen();
+		splash.setVisible(true);
+		SplashScreen.showProgress(splash);
+		
+		
+		splash.setVisible(false);
+		splash.dispose();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -89,7 +97,7 @@ public class LoginWindow extends JFrame {
 		admButton.setBounds(193, 159, 117, 29);
 		loginPane.add(admButton);
 		
-		
+		//Go to register window
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -99,6 +107,7 @@ public class LoginWindow extends JFrame {
 				catch (Exception Ex) {System.out.println(e);}	
 				}
 			});
+		//login button for admin(search admin database)
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -111,7 +120,7 @@ public class LoginWindow extends JFrame {
 					ResultSet rs = stmt.executeQuery(sql);
 					
 					if(rs.next()) {
-						MainMenu frame = new MainMenu(username);
+						AdminFW frame = new AdminFW();
 						frame.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
@@ -122,7 +131,7 @@ public class LoginWindow extends JFrame {
 			}
 			
 		});
-
+		//login button for customers(search customers database)
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();

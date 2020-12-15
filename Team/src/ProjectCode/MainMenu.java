@@ -44,64 +44,7 @@ public class MainMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public MainMenu() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		JLabel welcomeText = new JLabel("Welcome");
-		welcomeText.setBounds(78, 48, 269, 25);
-		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
-		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		contentPane.add(welcomeText);
-		
-		JButton bookFlightButton = new JButton("Book a Flight");
-		bookFlightButton.setBounds(152, 104, 117, 29);
-		contentPane.add(bookFlightButton);
-		
-		JButton accountButton = new JButton("My Account");
-		accountButton.setBounds(152, 145, 117, 29);
-		contentPane.add(accountButton);
-		
-		JButton logOutButton = new JButton("Log Out");
-		logOutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		logOutButton.setBounds(327, 243, 117, 29);
-		contentPane.add(logOutButton);
-		
-		bookFlightButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Connection conn = DbConnection.connect();
-				try {
-					FlightWindow frame = new FlightWindow();
-					frame.setVisible(true);
-				} catch (Exception Ex) {System.out.println(e);}
-			}
-		});
-		accountButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					MyAccountWindow frame = new MyAccountWindow();
-					frame.setVisible(true);
-				} catch(Exception Ex) {
-					System.out.println(e);
-				}
-			}
-		});
-		logOutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					LoginWindow frame = new LoginWindow();
-					frame.setVisible(true);
-				} catch(Exception Ex) {
-					System.out.println(e);
-				}
-			}
-		});
 	}
 	public MainMenu(String name) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,6 +55,7 @@ public class MainMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		String FirstName = "";
+		//selecting first name to add to welcome text
 		try {
 		Connection con = DbConnection.connect();
 		PreparedStatement ps = con.prepareStatement("SELECT First_Name FROM Customers WHERE username = '"+name+"';");
@@ -143,6 +87,7 @@ public class MainMenu extends JFrame {
 		logOutButton.setBounds(327, 243, 117, 29);
 		contentPane.add(logOutButton);
 		
+		//go to book flights window to add new flights
 		bookFlightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -152,7 +97,7 @@ public class MainMenu extends JFrame {
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
-		
+		//go to my account window to check existing flights
 		accountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -162,6 +107,7 @@ public class MainMenu extends JFrame {
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
+		//log out and return to login page
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

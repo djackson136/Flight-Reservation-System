@@ -157,12 +157,12 @@ public class RegisterWindow extends JFrame  {
 		contentPane.add(emailText);
 		emailText.setColumns(10);
 		
-		JLabel ssnLabel = new JLabel("SSN:");
-		ssnLabel.setBounds(122, 262, 33, 16);
+		JLabel ssnLabel = new JLabel("SSN(No Dashes):");
+		ssnLabel.setBounds(40, 262, 115, 16);
 		contentPane.add(ssnLabel);
 		
 		ssnText = new JPasswordField();
-		ssnText.setBounds(180, 257, 114, 26);
+		ssnText.setBounds(167, 257, 114, 26);
 		contentPane.add(ssnText);
 		
 		secQuestionLabel = new JLabel("Security Question:");
@@ -183,6 +183,7 @@ public class RegisterWindow extends JFrame  {
 		contentPane.add(secAnswerText);
 		
 		JButton regButton = new JButton("Register");
+		regButton.setBounds(145, 398, 117, 29);
 		regButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -227,7 +228,6 @@ public class RegisterWindow extends JFrame  {
 				
 			}
 		});
-		regButton.setBounds(145, 398, 117, 29);
 		contentPane.add(regButton);
 		System.out.println();
 		}
