@@ -212,6 +212,7 @@ public class AdminFW extends JFrame implements ActionListener {
 		logoutButton.setBounds(1013, 540, 125, 35);
 		contentPane.add(logoutButton);
 		
+		// click button to log out
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -291,22 +292,7 @@ public class AdminFW extends JFrame implements ActionListener {
 			}
 
 		});
-		
-		logoutButton = new JButton("Logout");
-		logoutButton.setBounds(1019, 525, 107, 35);
-		contentPane.add(logoutButton);
-		
-		logoutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					LoginWindow frame = new LoginWindow();
-					frame.setVisible(true);
-					dispose();
-				} catch(Exception Ex) {
-					System.out.println(e);
-				}
-			}
-		});
+
 		// click on row to show in text fields
 		table.addMouseListener(new MouseAdapter() {
 			@Override
