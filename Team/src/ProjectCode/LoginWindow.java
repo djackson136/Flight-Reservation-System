@@ -21,8 +21,6 @@ public class LoginWindow extends JFrame {
 	private String username;
     private String password;
     private JLabel icon;
-       
-
 
 	public String getUsername() {
 		return username;
@@ -139,6 +137,7 @@ public class LoginWindow extends JFrame {
 					if(rs.next()) {
 						AdminFW frame = new AdminFW();
 						frame.setVisible(true);
+						dispose();
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
@@ -168,7 +167,14 @@ public class LoginWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
 					}
-			} catch (Exception Ex) {System.out.println(e);}
+			} catch (Exception Ex) {System.out.println(e);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
+				}
 			}
 		});
 	}

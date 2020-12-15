@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class MyAccountWindow extends JFrame {
 	private JTable table;
 	private JButton showButton;
 	private JButton backButton;
+	
 
 	/**
 	 * Launch the application.
@@ -50,42 +52,6 @@ public class MyAccountWindow extends JFrame {
 	 */
 
 	public MyAccountWindow() {
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 550, 400);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 235));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 79, 494, 223);
-		scrollPane.setToolTipText("");
-		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		contentPane.add(scrollPane);
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-
-		showButton = new JButton("Show Flights");
-		showButton.setVerticalAlignment(SwingConstants.BOTTOM);
-		showButton.setFont(new Font("Apple Symbols", Font.PLAIN, 17));
-		showButton.setBounds(386, 314, 136, 32);
-		contentPane.add(showButton);
-
-		JLabel Header = new JLabel("Booked Flights");
-		Header.setForeground(Color.WHITE);
-		Header.setHorizontalAlignment(SwingConstants.CENTER);
-		Header.setFont(new Font("DIN Alternate", Font.BOLD, 26));
-		Header.setBounds(168, 22, 221, 40);
-		contentPane.add(Header);
-		
-		JButton deleteButton = new JButton("Delete Flight");
-		deleteButton.setVerticalAlignment(SwingConstants.BOTTOM);
-		deleteButton.setFont(new Font("Apple Symbols", Font.PLAIN, 17));
-		deleteButton.setBounds(38, 313, 117, 32);
-		contentPane.add(deleteButton);
 	}
 
 	public MyAccountWindow(String name) {
@@ -135,11 +101,10 @@ public class MyAccountWindow extends JFrame {
 				}
 			}
 		});
-
+		
 		// shows all flights booked by the logged in customer
 		showButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = DbConnection.connect();
 				DefaultTableModel model = new DefaultTableModel();
 				model.addColumn("Departure City");
 				model.addColumn("Arrival City");
@@ -153,12 +118,11 @@ public class MyAccountWindow extends JFrame {
 				table.getColumnModel().getColumn(3).setPreferredWidth(120);
 
 				try {
-					// selecting the details of the flights booked by logged in customer from
-					// BookedFlights database
-					String query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"
-							+ name + "';";
+					//selecting the details of the flights booked by logged in customer from BookedFlights database
+					String query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"+name+"';";
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
+
 					// adding selected values to the model to show the user
 					while (rs.next()) {
 						model.addRow(new Object[] { rs.getString("Dep_City"), rs.getString("Arr_City"),
@@ -175,7 +139,7 @@ public class MyAccountWindow extends JFrame {
 		});
 		
 		// click button to delete flights
-		deleteButton.addActionListener(new ActionListener() {
+				deleteButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
@@ -197,6 +161,13 @@ public class MyAccountWindow extends JFrame {
 
 						} catch (Exception ex) {
 							ex.printStackTrace();
+						}finally {
+							try {
+								conn.close();
+							} catch (SQLException Ex) {
+								Ex.printStackTrace();
+							}
+
 						}
 
 					}

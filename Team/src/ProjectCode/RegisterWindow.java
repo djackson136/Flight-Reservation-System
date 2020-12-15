@@ -3,6 +3,7 @@ package ProjectCode;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -168,13 +169,15 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(emailText);
 		emailText.setColumns(10);
 
+
 		JLabel ssnLabel = new JLabel("SSN (no dashes):");
 		ssnLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
+
 		ssnLabel.setBounds(40, 262, 115, 16);
 		contentPane.add(ssnLabel);
 
 		ssnText = new JPasswordField();
-		ssnText.setBounds(180, 257, 114, 26);
+		ssnText.setBounds(167, 257, 114, 26);
 		contentPane.add(ssnText);
 
 		secQuestionLabel = new JLabel("Security Question:");
@@ -195,6 +198,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		secAnswerText = new JTextField();
 		secAnswerText.setBounds(130, 314, 150, 26);
 		contentPane.add(secAnswerText);
+
 
 		regButton = new JButton("Register");
 		regButton.setVerticalAlignment(SwingConstants.BOTTOM);

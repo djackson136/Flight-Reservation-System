@@ -136,7 +136,7 @@ public class FlightWindow extends JFrame implements ActionListener {
 		backButton.setBounds(6, 6, 147, 32);
 		contentPane.add(backButton);
 
-		// go back to main menu
+		//go back to main menu
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -166,65 +166,63 @@ public class FlightWindow extends JFrame implements ActionListener {
 						int count = 0;
 						int capacity;
 						PreparedStatement ps;
-						Connection con = DbConnection.connect();
-						Statement statement = con.createStatement();
-						// selecting database values using username used at login
-						ResultSet rs = statement.executeQuery(
-								"SELECT SSN,Username,First_Name,Last_Name FROM Customers WHERE Username = '" + name
-										+ "';");
 
-						// assigning result database values to variables
-						while (rs.next()) {
-							ssn = rs.getString("SSN");
-							username = rs.getString("Username");
-							firstName = rs.getString("First_Name");
-							lastName = rs.getString("Last_Name");
-						}
-						// selecting and assigning capacity of the selected flight
-						ps = con.prepareStatement("SELECT Capacity FROM Flights WHERE Flight_ID = '" + FlightID + "';");
-						rs = ps.executeQuery();
-						rs.next();
-						capacity = rs.getInt("Capacity");
-						// selecting and assigning the number of booked passengers on selected flight
-						ps = con.prepareStatement(
-								"SELECT COUNT(Flight_ID) FROM BookedFlights WHERE Flight_ID = '" + FlightID + "';");
-						rs = ps.executeQuery();
-						rs.next();
-						count = rs.getInt("COUNT(Flight_ID)");
-						// if statement comparing bookings to capacity of the flight to prevent
-						// overbooking of a flight
-						if (count < capacity) {
-							// inserting selected flight into booked flights after being eligible
-							ps = con.prepareStatement(
-									"INSERT INTO BookedFlights(Flight_ID,SSN,First_Name,Last_Name,Username,Dep_City,Arr_City,Dep_Time,Dep_Date) VALUES(?,?,?,?,?,?,?,?,?);");
-							// setting the values that need to be inserted
-							ps.setString(1, FlightID);
-							ps.setString(2, ssn);
-							ps.setString(3, firstName);
-							ps.setString(4, lastName);
-							ps.setString(5, username);
-							ps.setString(6, FWDepCity);
-							ps.setString(7, FWArrCity);
-							ps.setString(8, FWDepDate);
-							ps.setString(9, FWDepTime);
-							int x = ps.executeUpdate();
-							if (x > 0)
-								JOptionPane.showMessageDialog(null, "Flight booked!");
-							else
-								JOptionPane.showMessageDialog(null, "Unable to book!");
+					Connection con = DbConnection.connect();
+					Statement statement = con.createStatement();
+		            //selecting database values using username used at login
+		            ResultSet rs = statement.executeQuery("SELECT SSN,Username,First_Name,Last_Name FROM Customers WHERE Username = '"+name+"';");
+		          
+		            //assigning result database values to variables
+		            while(rs.next()) {
+		            	ssn = rs.getString("SSN");
+		            	username = rs.getString("Username");
+		            	firstName = rs.getString("First_Name");
+		            	lastName = rs.getString("Last_Name");
+		            }
+		            //selecting and assigning capacity of the selected flight
+		            ps = con.prepareStatement("SELECT Capacity FROM Flights WHERE Flight_ID = '"+FlightID+"';");
+		            rs = ps.executeQuery();
+		            rs.next();
+		            capacity = rs.getInt("Capacity");
+		            //selecting and assigning the number of booked passengers on selected flight
+		            ps = con.prepareStatement("SELECT COUNT(Flight_ID) FROM BookedFlights WHERE Flight_ID = '"+FlightID+"';");
+		            rs = ps.executeQuery();
+		            rs.next();
+		            count = rs.getInt("COUNT(Flight_ID)");
+		            //if statement comparing bookings to capacity of the flight to prevent overbooking of a flight
+		            if(count < capacity) {
+		            //inserting selected flight into booked flights after being eligible
+		            ps = con.prepareStatement("INSERT INTO BookedFlights(Flight_ID,SSN,First_Name,Last_Name,Username,Dep_City,Arr_City,Dep_Time,Dep_Date) VALUES(?,?,?,?,?,?,?,?,?);");
+		            //setting the values that need to be inserted 
+		            ps.setString(1, FlightID);
+		            ps.setString(2, ssn);
+		            ps.setString(3, firstName);
+		            ps.setString(4, lastName);
+		            ps.setString(5, username);
+		            ps.setString(6, FWDepCity);
+		            ps.setString(7, FWArrCity);
+		            ps.setString(8, FWDepDate);
+		            ps.setString(9, FWDepTime);
+		            int x = ps.executeUpdate();
+					if (x > 0)
+						JOptionPane.showMessageDialog(null, "Flight booked!");
+					else
+						JOptionPane.showMessageDialog(null, "Unable to book!");
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Flight is full!");
 
-						} else {
-							JOptionPane.showMessageDialog(null, "Flight is full!");
-						}
-					} else
-						JOptionPane.showMessageDialog(null, "Select only 1 row");
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Flight is already booked!");
 				}
-			}
-		});
 
-	}
+				}else 
+					JOptionPane.showMessageDialog(null, "Select only 1 row");
+		        } catch (SQLException e1) {
+		        	JOptionPane.showMessageDialog(null, "Flight is already booked!");
+		        }
+		    }
+		});
+		}
+
 
 	// Click this button to search for flights
 	@Override
