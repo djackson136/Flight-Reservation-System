@@ -9,10 +9,6 @@ import javax.swing.border.*;
 
 @SuppressWarnings("serial")
 public class LoginWindow extends JFrame {
-
-	/**
-	 * 
-	 */
 	private JPanel loginPane;
 	private JTextField userText;
 	private JPasswordField passText;
@@ -21,27 +17,14 @@ public class LoginWindow extends JFrame {
 	private String username;
     private String password;
     private JLabel icon;
-
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	/**
-	 * Launch the application.
-	 */
+    
+    
+    // Launch the application
 	public static void main(String[] args) {
+		// Create and display the splash screen
 		SplashScreen splash = new SplashScreen();
 		splash.setVisible(true);
 		SplashScreen.showProgress(splash);
-		
 		
 		splash.setVisible(false);
 		splash.dispose();
@@ -57,12 +40,11 @@ public class LoginWindow extends JFrame {
 			}
 		});
 	}
-	/**
-	 * Create the frame.
-	 */
+	
+	// Creates the frame
 	public LoginWindow() {
 		setTitle("Login");
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 494, 339);
 		loginPane = new JPanel();
 		loginPane.setBorder(new EmptyBorder(30, 30, 30, 30));
@@ -109,10 +91,10 @@ public class LoginWindow extends JFrame {
 		icon = new JLabel("");
 		Image img = new ImageIcon(this.getClass().getResource("/modern.png")).getImage();
 		icon.setIcon(new ImageIcon(img));
-		icon.setBounds(-21, -86, 547, 416);
+		icon.setBounds(0, -64, 547, 328);
 		loginPane.add(icon);
 		
-		//Go to register window
+		// Go to register window
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -122,7 +104,7 @@ public class LoginWindow extends JFrame {
 				catch (Exception Ex) {System.out.println(e);}	
 				}
 			});
-		//login button for admin(search admin database)
+		// Login button for admin(search admin database)
 		admButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();
@@ -147,7 +129,7 @@ public class LoginWindow extends JFrame {
 			}
 			
 		});
-		//login button for customers(search customers database)
+		// Login button for customers(search customers database)
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn = DbConnection.connect();

@@ -43,10 +43,9 @@ public class AdminFW extends JFrame implements ActionListener {
 	private JButton deleteButton;
 	private JButton logoutButton;
 	private Flights flights;
-
-	/**
-	 * Launch the application.
-	 */
+	
+	
+	// Launch the application
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -59,11 +58,10 @@ public class AdminFW extends JFrame implements ActionListener {
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 * @throws SQLException 
-	 */
+	
+	
+	// Create the frame
+	// @throws SQLException 
 	public AdminFW() throws SQLException {
 		new Flights();
 
@@ -88,7 +86,7 @@ public class AdminFW extends JFrame implements ActionListener {
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setForeground(new Color(255, 255, 255));
 		title.setFont(new Font("DIN Alternate", Font.BOLD | Font.ITALIC, 35));
-		title.setBounds(480, 21, 263, 62);
+		title.setBounds(452, 24, 263, 62);
 		contentPane.add(title);
 
 		addButton = new JButton("Add");
@@ -295,7 +293,7 @@ public class AdminFW extends JFrame implements ActionListener {
 		});
 		
 		logoutButton = new JButton("Logout");
-		logoutButton.setBounds(1013, 540, 125, 35);
+		logoutButton.setBounds(1019, 525, 107, 35);
 		contentPane.add(logoutButton);
 		
 		logoutButton.addActionListener(new ActionListener() {
