@@ -79,7 +79,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(accountButton);
 		
 
-		JButton logOutButton = new JButton("Log Out");
+		JButton logOutButton = new JButton("Logout");
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}

@@ -16,8 +16,8 @@ public class FlightWindow extends JFrame {
 	private JTextField depText;
 	private JTable table;
 	static Connection conn = null;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
+	private JLabel depLabel;
+	private JLabel ArrLabel;
 	private JTextField arrText;
 	private JTextField dateText;
 	private JTextField timeText;
@@ -67,23 +67,23 @@ public class FlightWindow extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
-		JLabel lblNewLabel = new JLabel("Find Flights");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("DIN Alternate", Font.BOLD | Font.ITALIC, 35));
-		lblNewLabel.setBounds(275, 17, 187, 62);
-		contentPane.add(lblNewLabel);
+		JLabel titleLabel = new JLabel("Find Flights");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setForeground(new Color(255, 255, 255));
+		titleLabel.setFont(new Font("DIN Alternate", Font.BOLD | Font.ITALIC, 35));
+		titleLabel.setBounds(275, 17, 187, 62);
+		contentPane.add(titleLabel);
 
-		lblNewLabel_1 = new JLabel("Departure City");
-		lblNewLabel_1.setFont(new Font("Avenir Next", Font.PLAIN, 15));
-		lblNewLabel_1.setForeground(new Color(0, 0, 0));
-		lblNewLabel_1.setBounds(42, 114, 111, 16);
-		contentPane.add(lblNewLabel_1);
+		depLabel = new JLabel("Departure City");
+		depLabel.setFont(new Font("Avenir Next", Font.PLAIN, 15));
+		depLabel.setForeground(new Color(0, 0, 0));
+		depLabel.setBounds(42, 114, 111, 16);
+		contentPane.add(depLabel);
 
-		lblNewLabel_2 = new JLabel("Arrival City");
-		lblNewLabel_2.setFont(new Font("Avenir Next", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(216, 114, 86, 16);
-		contentPane.add(lblNewLabel_2);
+		ArrLabel = new JLabel("Arrival City");
+		ArrLabel.setFont(new Font("Avenir Next", Font.PLAIN, 15));
+		ArrLabel.setBounds(216, 114, 86, 16);
+		contentPane.add(ArrLabel);
 
 		depText = new JTextField();
 		depText.setBounds(38, 130, 135, 38);
@@ -95,15 +95,15 @@ public class FlightWindow extends JFrame {
 		contentPane.add(arrText);
 		arrText.setColumns(10);
 
-		JLabel lblNewLabel_3 = new JLabel("Date");
-		lblNewLabel_3.setFont(new Font("Avenir Next", Font.PLAIN, 15));
-		lblNewLabel_3.setBounds(392, 114, 40, 16);
-		contentPane.add(lblNewLabel_3);
+		JLabel dateLabel = new JLabel("Date");
+		dateLabel.setFont(new Font("Avenir Next", Font.PLAIN, 15));
+		dateLabel.setBounds(392, 114, 40, 16);
+		contentPane.add(dateLabel);
 
-		JLabel lblNewLabel_4 = new JLabel("Time");
-		lblNewLabel_4.setFont(new Font("Avenir Next", Font.PLAIN, 15));
-		lblNewLabel_4.setBounds(564, 114, 61, 16);
-		contentPane.add(lblNewLabel_4);
+		JLabel timeLabel = new JLabel("Time");
+		timeLabel.setFont(new Font("Avenir Next", Font.PLAIN, 15));
+		timeLabel.setBounds(564, 114, 61, 16);
+		contentPane.add(timeLabel);
 
 		dateText = new JTextField();
 		dateText.setBounds(389, 130, 130, 38);

@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 import javax.swing.ScrollPaneConstants;
@@ -56,26 +57,11 @@ public class AdminFW extends JFrame {
 			}
 		});
 	}
-	/*
-	 * public void showData() { try { String query = "SELECT * FROM Flights;";
-	 * PreparedStatement ps = conn.prepareStatement(query); ResultSetrs =
-	 * ps.executeQuery();
-	 * 
-	 * while (rs.next()) { model.addRow(new Object[] { rs.getString("FlightID"),
-	 * rs.getString("Capacity"), rs.getString("Dep_City"), rs.getString("Arr_City"),
-	 * rs.getString("Dep_Date"), rs.getString("Dep_Time") }); }
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
-
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public AdminFW() {
+	public AdminFW() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1144, 603);
 		contentPane = new JPanel();
@@ -85,34 +71,34 @@ public class AdminFW extends JFrame {
 		contentPane.setLayout(null);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setBounds(452, 104, 646, 378);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setEnabled(false);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setToolTipText("");
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane.setBounds(452, 104, 646, 378);
 		contentPane.add(scrollPane);
 
 		JLabel lblNewLabel = new JLabel("Flight Database");
+		lblNewLabel.setBounds(369, 19, 263, 62);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("DIN Alternate", Font.BOLD | Font.ITALIC, 35));
-		lblNewLabel.setBounds(369, 19, 263, 62);
 		contentPane.add(lblNewLabel);
 
 		JButton addButton = new JButton("Add");
-		addButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		addButton.setBounds(144, 431, 125, 35);
+		addButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		contentPane.add(addButton);
 
 		JButton updateButton = new JButton("Update");
-		updateButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		updateButton.setBounds(144, 473, 125, 35);
+		updateButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		contentPane.add(updateButton);
 
 		JButton deleteButton = new JButton("Delete");
-		deleteButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		deleteButton.setBounds(144, 515, 125, 35);
+		deleteButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
 		contentPane.add(deleteButton);
 
 		table = new JTable();
@@ -182,34 +168,50 @@ public class AdminFW extends JFrame {
 		idText.setColumns(10);
 
 		JLabel flightLabel = new JLabel("Flight ID");
-		flightLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		flightLabel.setBounds(52, 112, 89, 26);
+		flightLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		contentPane.add(flightLabel);
 
 		JLabel capacityLabel = new JLabel("Capacity");
-		capacityLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		capacityLabel.setBounds(52, 164, 107, 26);
+		capacityLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		contentPane.add(capacityLabel);
 
 		JLabel depLabel = new JLabel("Departure City");
-		depLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		depLabel.setBounds(52, 210, 178, 38);
+		depLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		contentPane.add(depLabel);
 
 		JLabel arrLabel = new JLabel("Arrival City");
-		arrLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		arrLabel.setBounds(52, 260, 148, 37);
+		arrLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		contentPane.add(arrLabel);
 
 		JLabel dateLabel = new JLabel("Departure Date");
-		dateLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		dateLabel.setBounds(52, 310, 169, 38);
+		dateLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		contentPane.add(dateLabel);
 
 		JLabel timeLabel = new JLabel("Departure Time");
-		timeLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		timeLabel.setBounds(52, 360, 169, 46);
+		timeLabel.setFont(new Font("Avenir Next", Font.PLAIN, 19));
 		contentPane.add(timeLabel);
+		
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.setBounds(1013, 540, 125, 35);
+		contentPane.add(logoutButton);
+		
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LoginWindow frame = new LoginWindow();
+					frame.setVisible(true);
+					dispose();
+				} catch(Exception Ex) {
+					System.out.println(e);
+				}
+			}
+		});
 
 	
 		// click button to add flights
@@ -238,7 +240,6 @@ public class AdminFW extends JFrame {
 					System.out.println(ps.toString());
 					model.addRow(new Object[] { flights.getFlightID(), flights.getCapacity(), flights.getDepCity(),
 							flights.getArrCity(), flights.getDepDate(), flights.getDepTime(),
-
 					});
 				}
 
@@ -254,7 +255,6 @@ public class AdminFW extends JFrame {
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				// deletes selected flight from Flights database
 				try {
 					flights.setFlightID(Integer.valueOf(idText.getText()));
@@ -326,6 +326,7 @@ public class AdminFW extends JFrame {
 					JOptionPane.showMessageDialog(null, "Select only 1 row");
 				
 				try {
+					Connection con = DbConnection.connect();
 					// updates selected flight in Flights database
 					String query = "UPDATE Flights SET Capacity = ?, Dep_City = ?, Arr_City = ?, Dep_Date = ?, Dep_Time = ? WHERE Flight_ID = ?;";
 					PreparedStatement ps = con.prepareStatement(query);
@@ -344,14 +345,13 @@ public class AdminFW extends JFrame {
 						System.out.println("Update Successful");
 					else
 						System.out.println("Update Failed");
-
+					
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-
 			}
 
 		});
-
+		
 	}
 }

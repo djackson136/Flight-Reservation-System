@@ -20,6 +20,7 @@ public class LoginWindow extends JFrame {
 	private JButton registerButton;
 	private String username;
     private String password;
+   
 
 
 	public String getUsername() {
@@ -122,6 +123,7 @@ public class LoginWindow extends JFrame {
 					if(rs.next()) {
 						AdminFW frame = new AdminFW();
 						frame.setVisible(true);
+						dispose();
 					}else {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();

@@ -28,6 +28,7 @@ public class MyAccountWindow extends JFrame {
 	private JTable table;
 	private JButton showButton;
 	private JButton backButton;
+	
 
 	/**
 	 * Launch the application.
@@ -78,10 +79,16 @@ public class MyAccountWindow extends JFrame {
 		Header.setFont(new Font("DIN Alternate", Font.BOLD, 20));
 		Header.setBounds(28, 33, 494, 40);
 		contentPane.add(Header);
+		
+		JButton deleteButton = new JButton("Delete Flight");
+		deleteButton.setFont(new Font("Avenir Next", Font.PLAIN, 13));
+		deleteButton.setBounds(38, 313, 117, 29);
+		contentPane.add(deleteButton);
 	}
 public MyAccountWindow(String name) {
 	
 	Connection conn = DbConnection.connect();
+	Flights flight = new Flights();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 400);
@@ -108,11 +115,16 @@ public MyAccountWindow(String name) {
 		backButton.setBounds(6, 6, 147, 29);
 		contentPane.add(backButton);
 		
+		JButton deleteButton = new JButton("Delete Flight");
+		deleteButton.setFont(new Font("Avenir Next", Font.PLAIN, 13));
+		deleteButton.setBounds(38, 313, 117, 29);
+		contentPane.add(deleteButton);
+		
 		//go back to main menu
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					MainMenu frame = new MainMenu();
+					MainMenu frame = new MainMenu(name);
 					frame.setVisible(true);
 					dispose();
 				} catch(Exception Ex) {
@@ -148,7 +160,6 @@ public MyAccountWindow(String name) {
 
 					rs.close();
 					pst.close();
-					conn.close();
 
 				} catch (Exception ex) {
 					System.out.println("error: " + ex);
@@ -163,15 +174,13 @@ public MyAccountWindow(String name) {
 
 						// deletes selected flight from Flights database
 						try {
-							flights.setFlightID(Integer.valueOf(idText.getText()));
 							
 							DefaultTableModel model = (DefaultTableModel) table.getModel();
 							int i = table.getSelectedRow();
 							
 							if (table.getSelectedRowCount() == 1) {
 								// finds the Flight ID of selected row
-								int flightid = flights.getFlightID();
-								PreparedStatement ps = conn.prepareStatement("DELETE FROM Flights WHERE Flight_ID = '" + flightid + "';");
+								PreparedStatement ps = conn.prepareStatement("DELETE FROM BookedFlights WHERE username = '" + name + "';");
 								// removes row from database and then the table
 								ps.executeUpdate();
 								System.out.println(ps.toString());
