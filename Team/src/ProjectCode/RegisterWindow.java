@@ -3,6 +3,7 @@ package ProjectCode;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -220,6 +221,12 @@ public class RegisterWindow extends JFrame  {
 					ps.executeUpdate();
 				} catch (Exception ex) {
 					System.out.println(ex);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
 				}
 				contentPane.setVisible(false);
 				dispose();

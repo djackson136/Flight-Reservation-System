@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="ProjectCode.FlightWindow" project="Team" 
     file="/Team/src/ProjectCode/FlightWindow.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="407" width="150" x="789" y="550"/>    
+    <position height="407" width="150" x="803" y="578"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -82,16 +82,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="ProjectCode.User" project="Team" file="/Team/src/ProjectCode/User.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="843" y="485"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="ProjectCode.MyAccountWindow" project="Team" 
+  <class id="10" language="java" name="ProjectCode.MyAccountWindow" project="Team" 
     file="/Team/src/ProjectCode/MyAccountWindow.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="299" y="981"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -100,18 +91,18 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="12">    
+  <association id="11">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="13" name="flights"/>      
-      <multiplicity id="14" minimum="0" maximum="2147483647"/>    
+      <attribute id="12" name="flights"/>      
+      <multiplicity id="13" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="15">    
+  <association id="14">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="16" name="flights"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
+      <attribute id="15" name="flights"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

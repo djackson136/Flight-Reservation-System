@@ -153,7 +153,14 @@ public class LoginWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "Login Failed");
 						conn.close();
 					}
-			} catch (Exception Ex) {System.out.println(e);}
+			} catch (Exception Ex) {System.out.println(e);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
+				}
 			}
 		});
 	}

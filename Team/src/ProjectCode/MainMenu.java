@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JButton;
@@ -55,14 +56,21 @@ public class MainMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		String FirstName = "";
+		Connection con = DbConnection.connect();
 		//selecting first name to add to welcome text
 		try {
-		Connection con = DbConnection.connect();
 		PreparedStatement ps = con.prepareStatement("SELECT First_Name FROM Customers WHERE username = '"+name+"';");
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		FirstName = rs.getString("First_Name");
-		}catch(Exception Ex) {}
+		}catch(Exception Ex) {
+			}finally {
+				try {
+					con.close();
+				} catch (SQLException Ex) {
+					Ex.printStackTrace();
+				}
+			}
 		
 		JLabel welcomeText = new JLabel("Welcome " + FirstName);
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);

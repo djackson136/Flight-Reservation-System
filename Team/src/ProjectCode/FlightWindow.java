@@ -264,6 +264,12 @@ public class FlightWindow extends JFrame {
 
 				} catch (Exception ex) {
 					System.out.println("error: " + ex);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
 				} 
 				
 			}

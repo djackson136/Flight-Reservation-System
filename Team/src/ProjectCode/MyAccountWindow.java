@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -190,6 +191,12 @@ public MyAccountWindow(String name) {
 
 						} catch (Exception ex) {
 							ex.printStackTrace();
+						}finally {
+							try {
+								conn.close();
+							} catch (SQLException Ex) {
+								Ex.printStackTrace();
+							}
 						}
 
 					}

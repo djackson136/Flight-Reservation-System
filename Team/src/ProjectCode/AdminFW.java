@@ -348,9 +348,15 @@ public class AdminFW extends JFrame {
 					
 				} catch (Exception ex) {
 					ex.printStackTrace();
+				}finally {
+					try {
+						con.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
 				}
+			
 			}
-
 		});
 		
 	}
