@@ -18,27 +18,19 @@ public class RegisterWindow extends JFrame implements ActionListener {
 	private JTextField lastNameText;
 	private JTextField streetText;
 	private JTextField cityText;
-	private JLabel stateLabel;
 	private JTextField zipText;
-	private JLabel userLabel;
 	private JTextField userText;
-	private JLabel passLabel;
 	private JTextField passText;
-	private JLabel conPassLabel;
 	private JTextField conPassText;
-	private JLabel emailLabel;
 	private JTextField emailText;
 	private JTextField ssnText;
-	private JLabel secQuestionLabel;
 	private JTextField secQuestionText;
-	private JLabel secAnswerLabel;
 	private JTextField secAnswerText;
 	private JComboBox<String> stateBox;
 	private JButton regButton;
 
-	/**
-	 * Launch the application.
-	 */
+	
+	// Launch the application
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -52,10 +44,8 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-
+	
+	// Creates the frame
 	public RegisterWindow() {
 		setTitle("Registration");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,7 +95,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(cityText);
 		cityText.setColumns(10);
 
-		stateLabel = new JLabel("State:");
+		JLabel stateLabel = new JLabel("State:");
 		stateLabel.setFont(new Font("Avenir Next", Font.PLAIN, 13));
 		stateLabel.setBounds(145, 112, 35, 16);
 		contentPane.add(stateLabel);
@@ -129,7 +119,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(zipText);
 		zipText.setColumns(10);
 
-		userLabel = new JLabel("Username:");
+		JLabel userLabel = new JLabel("Username:");
 		userLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
 		userLabel.setBounds(92, 145, 76, 16);
 		contentPane.add(userLabel);
@@ -139,7 +129,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(userText);
 		userText.setColumns(10);
 
-		passLabel = new JLabel("Password:");
+		JLabel passLabel = new JLabel("Password:");
 		passLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
 		passLabel.setBounds(92, 173, 76, 16);
 		contentPane.add(passLabel);
@@ -149,7 +139,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(passText);
 		passText.setColumns(10);
 
-		conPassLabel = new JLabel("Confirm Password:");
+		JLabel conPassLabel = new JLabel("Confirm Password:");
 		conPassLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
 		conPassLabel.setBounds(40, 201, 128, 16);
 		contentPane.add(conPassLabel);
@@ -159,7 +149,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(conPassText);
 		conPassText.setColumns(10);
 
-		emailLabel = new JLabel("Email:");
+		JLabel emailLabel = new JLabel("Email:");
 		emailLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
 		emailLabel.setBounds(44, 229, 46, 16);
 		contentPane.add(emailLabel);
@@ -172,7 +162,6 @@ public class RegisterWindow extends JFrame implements ActionListener {
 
 		JLabel ssnLabel = new JLabel("SSN (no dashes):");
 		ssnLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
-
 		ssnLabel.setBounds(40, 262, 115, 16);
 		contentPane.add(ssnLabel);
 
@@ -180,7 +169,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		ssnText.setBounds(167, 257, 114, 26);
 		contentPane.add(ssnText);
 
-		secQuestionLabel = new JLabel("Security Question:");
+		JLabel secQuestionLabel = new JLabel("Security Question:");
 		secQuestionLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
 		secQuestionLabel.setBounds(6, 291, 121, 16);
 		contentPane.add(secQuestionLabel);
@@ -190,7 +179,7 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		contentPane.add(secQuestionText);
 		secQuestionText.setColumns(10);
 
-		secAnswerLabel = new JLabel("Security Answer:");
+		JLabel secAnswerLabel = new JLabel("Security Answer:");
 		secAnswerLabel.setFont(new Font("Avenir Next", Font.PLAIN, 14));
 		secAnswerLabel.setBounds(16, 319, 112, 16);
 		contentPane.add(secAnswerLabel);
@@ -205,18 +194,20 @@ public class RegisterWindow extends JFrame implements ActionListener {
 		regButton.setFont(new Font("Apple Symbols", Font.PLAIN, 16));
 		regButton.setBounds(156, 366, 104, 32);
 		contentPane.add(regButton);
-
+		
+		// Adds ActionListener to register button
 		regButton.addActionListener(this);
 
 	}
-
+	
+	// Registers a customer into the Customers SQL database
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == regButton) {
 			Connection conn = DbConnection.connect();
 			try {
 				Customer customer = new Customer();
-
+				// Sets user inputs into data fields (from Customer class)
 				customer.setSsn(Integer.valueOf(ssnText.getText()));
 				customer.setUsername(userText.getText());
 				customer.setPassword(passText.getText());
@@ -229,9 +220,9 @@ public class RegisterWindow extends JFrame implements ActionListener {
 				customer.setZipcode(Integer.valueOf(zipText.getText()));
 				customer.setSecQuestion(secQuestionText.getText());
 				customer.setSecAnswer(secAnswerText.getText());
-
-				PreparedStatement ps = conn
-						.prepareStatement("INSERT INTO Customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+				
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO Customers VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+				// Finds the values for each question mark in the PreparedStatement
 				ps.setInt(1, customer.getSsn());
 				ps.setString(2, customer.getUsername());
 				ps.setString(3, customer.getPassword());
@@ -244,6 +235,8 @@ public class RegisterWindow extends JFrame implements ActionListener {
 				ps.setInt(10, customer.getZipcode());
 				ps.setString(11, customer.getSecQuestion());
 				ps.setString(12, customer.getSecAnswer());
+				
+				// Inserts user inputs into the database
 				ps.executeUpdate();
 			} catch (Exception ex) {
 				System.out.println(ex);

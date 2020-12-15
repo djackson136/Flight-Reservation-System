@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -18,47 +19,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class MainMenu extends JFrame {
 
-	private JPanel contentPane;
+	private JPanel menuPane;
+	private JLabel welcomeText;
+	private JButton bookFlightButton;
+	private JButton accountButton;
+	private JButton logOutButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainMenu frame = new MainMenu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainMenu() {
 		
 	}
+	
+	// Create the frame
 	public MainMenu(String name) {
+		setTitle("Main Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		setBounds(100, 100, 494, 339);
+		menuPane = new JPanel();
+		menuPane.setBackground(new Color(135, 206, 235));
+		menuPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(menuPane);
+		menuPane.setLayout(null);
 		
 		String FirstName = "";
 
 		Connection con = DbConnection.connect();
-		//selecting first name to add to welcome text
+		// Selecting first name to add to welcome text
 		try {
 		PreparedStatement ps = con.prepareStatement("SELECT First_Name FROM Customers WHERE username = '"+name+"';");
 		ResultSet rs = ps.executeQuery();
@@ -73,30 +66,35 @@ public class MainMenu extends JFrame {
 				}
 			}
 		
-		JLabel welcomeText = new JLabel("Welcome " + FirstName);
+		welcomeText = new JLabel("Welcome " + FirstName);
+		welcomeText.setForeground(Color.WHITE);
 		welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
-		welcomeText.setBounds(78, 48, 269, 25);
-		welcomeText.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		contentPane.add(welcomeText);
+		welcomeText.setBounds(81, 65, 306, 36);
+		welcomeText.setFont(new Font("Avenir Next", Font.BOLD, 28));
+		menuPane.add(welcomeText);
 		
-		JButton bookFlightButton = new JButton("Book Flight");
-		bookFlightButton.setBounds(152, 104, 117, 29);
-		contentPane.add(bookFlightButton);
+		bookFlightButton = new JButton("Book Flight");
+		bookFlightButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
+		bookFlightButton.setBounds(178, 135, 117, 35);
+		menuPane.add(bookFlightButton);
 		
-		JButton accountButton = new JButton("My Account");
-		accountButton.setBounds(152, 145, 117, 29);
-		contentPane.add(accountButton);
+		accountButton = new JButton("My Account");
+		accountButton.setFont(new Font("Apple Symbols", Font.PLAIN, 20));
+		accountButton.setBounds(178, 182, 117, 35);
+		menuPane.add(accountButton);
 		
 
-		JButton logOutButton = new JButton("Logout");
+		logOutButton = new JButton("Logout");
+		logOutButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		logOutButton.setFont(new Font("Apple Symbols", Font.PLAIN, 17));
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		logOutButton.setBounds(327, 243, 117, 29);
-		contentPane.add(logOutButton);
-		
-		//go to book flights window to add new flights
+		logOutButton.setBounds(380, 269, 101, 32);
+		menuPane.add(logOutButton);
+
+		// Go to book flights window to add new flights
 		bookFlightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -106,7 +104,7 @@ public class MainMenu extends JFrame {
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
-		//go to my account window to check existing flights
+		// Go to my account window to check existing flights
 		accountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -116,7 +114,7 @@ public class MainMenu extends JFrame {
 				} catch (Exception Ex) {System.out.println(e);}
 			}
 		});
-		//log out and return to login page
+		// Log out and return to login page
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {

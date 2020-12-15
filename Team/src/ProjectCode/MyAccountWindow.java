@@ -29,6 +29,7 @@ public class MyAccountWindow extends JFrame {
 	private JTable table;
 	private JButton showButton;
 	private JButton backButton;
+	private JLabel title;
 	
 
 	/**
@@ -68,7 +69,7 @@ public class MyAccountWindow extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(28, 30, 494, 223);
+		scrollPane.setBounds(36, 91, 482, 220);
 		scrollPane.setToolTipText("");
 		scrollPane.setViewportBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPane.add(scrollPane);
@@ -77,17 +78,26 @@ public class MyAccountWindow extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		showButton = new JButton("Show Flights");
-		showButton.setBounds(386, 265, 136, 29);
+		showButton.setFont(new Font("Apple Symbols", Font.PLAIN, 18));
+		showButton.setBounds(422, 321, 108, 34);
 		contentPane.add(showButton);
 		
 		JButton backButton = new JButton("Back to Main Menu");
-		backButton.setBounds(6, 6, 147, 29);
+		backButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		backButton.setFont(new Font("Apple Symbols", Font.PLAIN, 17));
+		backButton.setBounds(6, 6, 147, 32);
 		contentPane.add(backButton);
 		
 		JButton deleteButton = new JButton("Delete Flight");
-		deleteButton.setFont(new Font("Avenir Next", Font.PLAIN, 13));
-		deleteButton.setBounds(38, 313, 117, 29);
+		deleteButton.setFont(new Font("Apple Symbols", Font.PLAIN, 18));
+		deleteButton.setBounds(36, 323, 108, 34);
 		contentPane.add(deleteButton);
+
+		title = new JLabel("Flight Reservations");
+		title.setForeground(Color.WHITE);
+		title.setFont(new Font("DIN Alternate", Font.BOLD, 26));
+		title.setBounds(177, 29, 236, 61);
+		contentPane.add(title);
 		
 		// go back to main menu
 		backButton.addActionListener(new ActionListener() {
