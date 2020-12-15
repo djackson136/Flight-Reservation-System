@@ -145,6 +145,12 @@ public class FlightWindow extends JFrame implements ActionListener {
 					dispose();
 				} catch (Exception Ex) {
 					System.out.println(e);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
 				}
 			}
 		});

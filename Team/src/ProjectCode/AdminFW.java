@@ -221,6 +221,12 @@ public class AdminFW extends JFrame implements ActionListener {
 					dispose();
 				} catch(Exception Ex) {
 					System.out.println(e);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
 				}
 			}
 		});
@@ -262,37 +268,6 @@ public class AdminFW extends JFrame implements ActionListener {
 			}
 
 		});
-
-		// click button to delete flights
-		deleteButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// deletes selected flight from Flights database
-				try {
-					flights.setFlightID(Integer.valueOf(idText.getText()));
-					
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					int i = table.getSelectedRow();
-					
-					if (table.getSelectedRowCount() == 1) {
-						// finds the Flight ID of selected row
-						int flightid = flights.getFlightID();
-						PreparedStatement ps = conn.prepareStatement("DELETE FROM Flights WHERE Flight_ID = '" + flightid + "';");
-						// removes row from database and then the table
-						ps.executeUpdate();
-						System.out.println(ps.toString());
-						model.removeRow(i);
-					} else
-						JOptionPane.showMessageDialog(null, "Select only 1 row");
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-
-			}
-
-		});
-
 		// click on row to show in text fields
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -393,12 +368,6 @@ public class AdminFW extends JFrame implements ActionListener {
 
 				} catch (Exception ex) {
 					ex.printStackTrace();
-				}finally {
-					try {
-						conn.close();
-					} catch (SQLException Ex) {
-						Ex.printStackTrace();
-					}
 				}
 			
 			}

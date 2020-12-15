@@ -108,6 +108,12 @@ public class MyAccountWindow extends JFrame {
 					dispose();
 				} catch (Exception Ex) {
 					System.out.println(e);
+				}finally {
+					try {
+						conn.close();
+					} catch (SQLException Ex) {
+						Ex.printStackTrace();
+					}
 				}
 			}
 		});
@@ -116,26 +122,29 @@ public class MyAccountWindow extends JFrame {
 		showButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = new DefaultTableModel();
+				model.addColumn("Flight Number");
 				model.addColumn("Departure City");
 				model.addColumn("Arrival City");
 				model.addColumn("Departure Date");
 				model.addColumn("Departure Time");
+				// adds model to the table
 				table.setModel(model);
 				table.setAutoResizeMode(0);
-				table.getColumnModel().getColumn(0).setPreferredWidth(120);
-				table.getColumnModel().getColumn(1).setPreferredWidth(120);
-				table.getColumnModel().getColumn(2).setPreferredWidth(120);
-				table.getColumnModel().getColumn(3).setPreferredWidth(120);
+				table.getColumnModel().getColumn(0).setPreferredWidth(96);
+				table.getColumnModel().getColumn(1).setPreferredWidth(96);
+				table.getColumnModel().getColumn(2).setPreferredWidth(96);
+				table.getColumnModel().getColumn(3).setPreferredWidth(96);
+				table.getColumnModel().getColumn(4).setPreferredWidth(96);
 				
 				try {
 					//selecting the details of the flights booked by logged in customer from BookedFlights database
-					String query = "SELECT Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"+name+"';";
+					String query = "SELECT Flight_ID, Dep_City, Arr_City, Dep_Date, Dep_Time FROM BookedFlights WHERE Username = '"+name+"';";
 					PreparedStatement pst = conn.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
 					
 					// adding selected values to the model to show the user
 					while (rs.next()) {
-						model.addRow(new Object[] { rs.getString("Dep_City"), rs.getString("Arr_City"),
+						model.addRow(new Object[] { rs.getString("Flight_ID"), rs.getString("Dep_City"), rs.getString("Arr_City"),
 								rs.getString("Dep_Date"), rs.getString("Dep_Time"), });
 					}
 
@@ -155,13 +164,14 @@ public class MyAccountWindow extends JFrame {
 
 						// deletes selected flight from Flights database
 						try {
+							String FlightID = (String) table.getValueAt(table.getSelectedRow(), 0);
 							
 							DefaultTableModel model = (DefaultTableModel) table.getModel();
 							int i = table.getSelectedRow();
 							
 							if (table.getSelectedRowCount() == 1) {
 								// finds the Flight ID of selected row
-								PreparedStatement ps = conn.prepareStatement("DELETE FROM BookedFlights WHERE username = '" + name + "';");
+								PreparedStatement ps = conn.prepareStatement("DELETE FROM BookedFlights WHERE Flight_ID = '"+FlightID+"';");
 								// removes row from database and then the table
 								ps.executeUpdate();
 								System.out.println(ps.toString());
@@ -171,15 +181,7 @@ public class MyAccountWindow extends JFrame {
 
 						} catch (Exception ex) {
 							ex.printStackTrace();
-						}finally {
-							try {
-								conn.close();
-							} catch (SQLException Ex) {
-								Ex.printStackTrace();
-							}
-							
 						}
-
 					}
 
 				});
